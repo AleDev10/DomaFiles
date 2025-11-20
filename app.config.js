@@ -61,5 +61,5 @@ export default ({ config }) => ({
     },
   },
   owner: "alexandre_junqueiro",
-  plugins: ["expo-font"],
+  plugins: ["expo-font", "expo-camera"],
 });
