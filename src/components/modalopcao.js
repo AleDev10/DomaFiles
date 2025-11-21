@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { StyleSheet, View, Text, Modal } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 //componentes
 import BtnUniversal from "./btnuniversal";
@@ -48,12 +49,12 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontFamily: "Montserrat-Black",
-    fontSize: 30,
+    fontSize: RFPercentage(4.5),
     color:'#0f50a6'
   },
   paragrafo:{
     fontFamily: "Montserrat-Medium",
-    fontSize: 20,
+    fontSize: RFPercentage(2),
     textAlign:'center'
   },
   caixaBtns:{

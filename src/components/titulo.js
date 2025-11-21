@@ -1,4 +1,5 @@
 import { StyleSheet, Text} from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 export default function Titulo({ posicao }) {
   switch (posicao) {
@@ -17,12 +18,12 @@ export default function Titulo({ posicao }) {
 const styles = StyleSheet.create({
   titulo: {
     fontFamily: "Montserrat-Black",
-    fontSize: 50,
+    fontSize: RFPercentage(7),
     marginTop: 10,
   },
   tituloEsquerda: {
     fontFamily: "Montserrat-Black",
-    fontSize: 35,
+    fontSize: RFPercentage(5),
     color:'#fff',
 
   },

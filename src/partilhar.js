@@ -1,85 +1,71 @@
-import { StyleSheet, View, Text,ScrollView } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 //COMPONENTES
 import BtnUniversal from "./components/btnuniversal";
 import Dispositivos from "./components/dispositivos";
+import Fundo from "./components/fundo";
 
 export default function Partilhar2() {
   const navegation = useNavigation();
 
   return (
-    <View style={styles.caixaPrincipal}>
-      <View style={styles.caixaSecundaria}>
-        <View style={styles.caixaSuperior}>
-          <View style={styles.caixaTextos}>
-            <Text style={styles.titulo}>PARTILHAR</Text>
-            <View style={styles.caixaParagrafos}>
-              <Text style={styles.paragrafo}>
-                liGUE OS OUTROS{"\n"}DISPOSITIVOS AO{"\n"}PONTO DE ACESSO{"\n"}
-                DO SEU E SCANEIE{"\n"}O QRCODE
-              </Text>
-              <Text style={styles.paragrafo}>
-                SE CERTIFIQUE QUE{"\n"}O PONTO DE ACESSO{"\n"}ESTÁ ATIVADO E QUE
-                {"\n"}CADA DESPOSITIVO{"\n"}ESTÁ CONECTADO AO MESMO
-              </Text>
-              <Text style={styles.paragrafo}>
-                OU DIGITE ESTE ENDEREÇO:{"\n"}http://192.168.0.1:5000
-              </Text>
-            </View>
-          </View>
-          <View>
-            <BtnUniversal icone={"qrcode"} evento={()=>{
-              navegation.navigate('QRCODE');
-            }}></BtnUniversal>
+    <Fundo style={styles.caixaPrincipal}>
+      <View style={styles.caixaSuperior}>
+        <View style={styles.caixaTextos}>
+          <Text style={styles.titulo}>PARTILHAR</Text>
+          <View style={styles.caixaParagrafos}>
+            <Text style={styles.paragrafo}>
+              liGUE OS OUTROS{"\n"}DISPOSITIVOS AO{"\n"}PONTO DE ACESSO{"\n"}
+              DO SEU E SCANEIE{"\n"}O QRCODE
+            </Text>
+            <Text style={styles.paragrafo}>
+              SE CERTIFIQUE QUE{"\n"}O PONTO DE ACESSO{"\n"}ESTÁ ATIVADO E QUE
+              {"\n"}CADA DESPOSITIVO{"\n"}ESTÁ CONECTADO AO MESMO
+            </Text>
+            <Text style={styles.paragrafo}>
+              OU DIGITE ESTE ENDEREÇO:{"\n"}http://192.168.0.1:5000
+            </Text>
           </View>
         </View>
-        <View style={styles.caixaInferior}>
-          <Text style={styles.textoDispositivos}>DISPOSITIVOS CONECTADOS</Text>
-          <ScrollView style={styles.caixaDispositivos}>
-            <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-            </View>
-            <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-            </View>
-            <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-            </View>
-            <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-            </View>
-            <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-            </View>
-            <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-            </View>
-          </ScrollView>
+        <View>
+          <BtnUniversal
+            icone={"qrcode"}
+            evento={() => {
+              navegation.navigate("QRCODE");
+            }}
+          ></BtnUniversal>
         </View>
       </View>
-    </View>
+      <View style={styles.caixaInferior}>
+        <Text style={styles.textoDispositivos}>DISPOSITIVOS CONECTADOS</Text>
+        <ScrollView style={styles.caixaDispositivos}>
+          <View style={styles.conectados}>
+            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
+          </View>
+          <View style={styles.conectados}>
+            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
+          </View>
+          <View style={styles.conectados}>
+            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
+          </View>
+          <View style={styles.conectados}>
+            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
+          </View>
+          <View style={styles.conectados}>
+            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
+          </View>
+          <View style={styles.conectados}>
+            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
+          </View>
+        </ScrollView>
+      </View>
+    </Fundo>
   );
 }
 
 const styles = StyleSheet.create({
-  caixaPrincipal: {
-    flex: 1,
-    backgroundColor: "#0f50a6",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  caixaSecundaria: {
-    backgroundColor: "#63bbf2",
-    width: "100%",
-    height: "88%",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
   caixaSuperior: {
     flexDirection: "row",
     alignItems: "flex-start",
@@ -90,7 +76,7 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontFamily: "Montserrat-Black",
-    fontSize: 30,
+    fontSize: RFPercentage(3.5),
     color: "#fff",
   },
   caixaParagrafos: {
@@ -98,7 +84,7 @@ const styles = StyleSheet.create({
   },
   paragrafo: {
     fontFamily: "Montserrat-Medium",
-    fontSize: 12,
+    fontSize: RFPercentage(1.5),
     color: "#fff",
   },
   caixaInferior: {
@@ -111,19 +97,19 @@ const styles = StyleSheet.create({
   },
   textoDispositivos: {
     fontFamily: "Montserrat-Bold",
-    fontSize: 15,
+    fontSize: RFPercentage(2),
     color: "#fff",
   },
   caixaDispositivos: {
-    flex:1,
+    flex: 1,
     width: "100%",
     backgroundColor: "#fff",
-    borderRadius:20,
+    borderRadius: 20,
   },
-  conectados:{
+  conectados: {
     flex: 1,
     alignItems: "center",
     padding: 10,
     gap: 5,
-  }
+  },
 });

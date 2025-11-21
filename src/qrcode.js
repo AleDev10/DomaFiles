@@ -1,8 +1,12 @@
 import { StyleSheet, View, Text, Image } from "react-native";
+import { RFPercentage,RFValue } from "react-native-responsive-fontsize";
+
+//componentes
+import Fundo from "./components/fundo";
 
 export default function Qrcode() {
   return (
-    <View style={styles.caixaPrincipal}>
+    <Fundo>
       <View style={styles.caixaSecundaria}>
         <View style={styles.caixaTexto}>
           <Text style={styles.titulo}>QRCODE</Text>
@@ -16,25 +20,14 @@ export default function Qrcode() {
           </View>
         </View>
       </View>
-    </View>
+    </Fundo>
   );
 }
 
 const styles = StyleSheet.create({
-  caixaPrincipal: {
-    flex: 1,
-    backgroundColor: "#0f50a6",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
   caixaSecundaria: {
-    backgroundColor: "#63bbf2",
     width: "100%",
-    height: "88%",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    height: "100%",
     padding: 10,
     gap:10
   },
@@ -44,12 +37,12 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontFamily: "Montserrat-Black",
-    fontSize: 30,
+    fontSize: RFPercentage(3.5),
     color: "#fff",
   },
   frase: {
     fontFamily: "Montserrat-Medium",
-    fontSize: 15,
+    fontSize:RFPercentage(1.5),
     color: "#fff",
   },
   caixaQrcode:{
@@ -66,7 +59,7 @@ const styles = StyleSheet.create({
   },
   textoOpcao:{
     fontFamily: "Montserrat-Medium",
-    fontSize: 15,
+    fontSize: RFPercentage(1.5),
   },
   caixaUrl:{
     backgroundColor:'#0f50a6',
@@ -77,7 +70,7 @@ const styles = StyleSheet.create({
   },
   textoUrl:{
     fontFamily: "Montserrat-Medium",
-    fontSize: 15,
+    fontSize: RFValue(15),
     color:'#fff',
   }
 });

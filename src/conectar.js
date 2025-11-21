@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 //componentes
 import Fundo from "./components/fundo";
@@ -51,35 +52,36 @@ const styles = StyleSheet.create({
   },
   caixaInfoBt: {
     flexDirection: "row",
+    justifyContent:'space-between'
   },
   caixaTitulo: {
     gap: 20,
   },
   titulo: {
     fontFamily: "Montserrat-Black",
-    fontSize: 30,
+    fontSize: RFPercentage(4),
     color: "#fff",
   },
   titulo2: {
     fontFamily: "Montserrat-Black",
-    fontSize: 30,
+    fontSize: RFPercentage(3.4),
     color: "#fff",
     marginTop: -30,
   },
   paragrafo: {
     fontFamily: "Montserrat-Medium",
-    fontSize: 15,
+    fontSize: RFPercentage(1.5),
     color: "#fff",
   },
   paragrafo2: {
     fontFamily: "Montserrat-Medium",
-    fontSize: 15,
+    fontSize: RFPercentage(1.5),
     color: "#fff",
     marginTop: 20,
   },
   subTitulo: {
     fontFamily: "Montserrat-Bold",
-    fontSize: 20,
+    fontSize: RFPercentage(2),
     color: "#fff",
     marginTop: 20,
   },

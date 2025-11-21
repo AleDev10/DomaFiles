@@ -1,5 +1,6 @@
 import {StyleSheet,View,Text} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 //componentes
 import LetraInicial from "./components/letrainicial";
@@ -60,13 +61,13 @@ const styles = StyleSheet.create({
     textoBV:{
         fontFamily: 'Montserrat-Black',
         color:'#ffff',
-        fontSize: 27
+        fontSize: RFPercentage(4)
     },
     textoInfo:{
         color:'#ffff',
         fontFamily: 'Montserrat-Light',
         textAlign:'center',
-        fontSize:15
+        fontSize:RFPercentage(2)
     },
     entradaNome:{
         backgroundColor:'#ffff',

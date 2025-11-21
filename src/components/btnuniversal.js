@@ -1,4 +1,5 @@
 import { TouchableOpacity, Image, StyleSheet, Text } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 export default function BtnUniversal({ icone, evento }) {
   switch (icone) {
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
   textoBtn: {
     fontFamily: "Montserrat-Bold",
     color: "#fff",
-    fontSize: 15,
+    fontSize: RFPercentage(1.5),
   },
   btnAzul: {
     backgroundColor: "#0f50a6",

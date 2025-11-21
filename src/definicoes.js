@@ -1,13 +1,15 @@
 import { StyleSheet, View, Text } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 //componentes
 import LetraInicial from "./components/letrainicial";
 import EntradaNome from "./components/entradanome";
 import BtnUniversal from "./components/btnuniversal";
+import Fundo from "./components/fundo";
 
 export default function Definicoes() {
   return (
-    <View style={styles.caixaPrincipal}>
+    <Fundo >
       <View style={styles.caixaSegundaria}>
         <View style={styles.caixaLetra}>
           <LetraInicial letra={"A"}></LetraInicial>
@@ -15,13 +17,12 @@ export default function Definicoes() {
         <View style={styles.caixaDetalhes}>
           <EntradaNome></EntradaNome>
           <View style={styles.caixaParagrafo}>
-            <Text style={styles.paragrafo1}>
-              ESTE APP É OPEN SOURCE,O{"\n"}O CODIGO FONTE ESTÁ DISPONIVEL{"\n"}
-              NO GITHUB DO PERFIL @ALEDEV10.
+            <Text style={styles.paragrafo1}>ESTE APP É OPEN SOURCE,O{"\n"}O CODIGO FONTE ESTÁ DISPONIVEL{"\n"}
+            NO GITHUB DO PERFIL @ALEDEV10.
             </Text>
-            <Text style={styles.paragrafo2}>
+            <Text style={styles.paragrafo1}>
               "AS PESSOAS NOTAM QUE ELAS{"\n"}ESTÃO A FAZER O QUE ELAS AMAM{"\n"}
-              QUANDO NÃO NOTAM O TEMPO A PASSAR".
+              QUANDO NÃO NOTAM O{"\n"}TEMPO A PASSAR."
             </Text>
           </View>
           <View style={styles.caixaBtns}>
@@ -30,27 +31,16 @@ export default function Definicoes() {
           </View>
         </View>
       </View>
-    </View>
+    </Fundo>
   );
 }
 
 const styles = StyleSheet.create({
-  caixaPrincipal: {
-    flex: 1,
-    backgroundColor: "#0f50a6",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
   caixaSegundaria: {
     backgroundColor: "#63bbf2",
-    width: "100%",
-    height: "88%",
+    flex:1,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
     padding: 20,
   },
   caixaLetra: {
@@ -69,17 +59,13 @@ const styles = StyleSheet.create({
     gap: 30,
   },
   caixaParagrafo:{
+    width:'100%',
     alignItems:'center',
     gap:10
   },
   paragrafo1: {
     fontFamily: "Montserrat-Bold",
-    fontSize: 13,
-  },
-  paragrafo2: {
-    fontFamily: "Montserrat-Bold",
-    fontSize: 13,
-    marginLeft:20
+    fontSize: RFPercentage(1.5),
   },
   caixaBtns: {
     flexDirection: "row",

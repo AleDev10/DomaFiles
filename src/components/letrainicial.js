@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 export default function LetraInicial({ letra, tipo }) {
   switch (tipo) {
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   },
   letra: {
     fontFamily: "Montserrat-Black",
-    fontSize: 100,
+    fontSize: RFPercentage(15),
     marginBottom:15
   },
   caixaFotoPequena: {
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
   },
   letraPequena:{
     fontFamily: "Montserrat-Black",
-    fontSize: 35,
+    fontSize: RFPercentage(4),
     marginBottom:7
   }
 });

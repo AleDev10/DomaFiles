@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 //componentes
 import LetraInicial from "./letrainicial";
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   },
   textoDispositivo: {
     fontFamily: "Montserrat-Black",
-    fontSize: 15,
+    fontSize: RFPercentage(2),
     color: "#fff",
   },
 });

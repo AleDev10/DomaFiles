@@ -1,5 +1,4 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet} from 'react-native';
 import {useFonts} from 'expo-font';
 import { createStaticNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -90,13 +89,3 @@ export default function App() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  principal: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily:"Montserrat-Bold"
-  },
-});
