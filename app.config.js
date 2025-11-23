@@ -1,30 +1,29 @@
-const IS_DEV = process.env.APP_VARIANT === 'development';
-const IS_PREVIEW = process.env.APP_VARIANT === 'preview';
+const IS_DEV = process.env.APP_VARIANT === "development";
+const IS_PREVIEW = process.env.APP_VARIANT === "preview";
 
 const getUniqueIdentifier = () => {
   if (IS_DEV) {
-    return 'com.alexandre_junqueiro.DomaFiles.dev';
+    return "com.alexandre_junqueiro.DomaFiles.dev";
   }
 
   if (IS_PREVIEW) {
-    return 'com.alexandre_junqueiro.DomaFiles.preview';
+    return "com.alexandre_junqueiro.DomaFiles.preview";
   }
 
-  return 'com.alexandre_junqueiro.DomaFiles';
+  return "com.alexandre_junqueiro.DomaFiles";
 };
 
 const getAppName = () => {
   if (IS_DEV) {
-    return 'DomaFiles (Dev)';
+    return "DomaFiles (Dev)";
   }
 
   if (IS_PREVIEW) {
-    return 'DomaFiles';
+    return "DomaFiles";
   }
 
-  return 'DomaFiles';
+  return "DomaFiles";
 };
-
 
 export default ({ config }) => ({
   ...config,
@@ -61,5 +60,15 @@ export default ({ config }) => ({
     },
   },
   owner: "alexandre_junqueiro",
-  plugins: ["expo-font", "expo-camera"],
+  plugins: [
+    "expo-font",
+    [
+      "expo-camera",
+      {
+        cameraPermission: "Allow $(PRODUCT_NAME) to access your camera",
+        microphonePermission: "Allow $(PRODUCT_NAME) to access your microphone",
+        recordAudioAndroid: true,
+      },
+    ],
+  ],
 });
