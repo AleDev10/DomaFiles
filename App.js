@@ -10,6 +10,7 @@ import Definicoes from "./src/definicoes";
 import Partilhar from "./src/partilhar";
 import Qrcode from "./src/qrcode";
 import Conectar from "./src/conectar";
+import Scaner from "./src/scaner";
 
 //componentes
 import Titulo from "./src/components/titulo";
@@ -60,6 +61,12 @@ const RooStack = createNativeStackNavigator({
       options:{
         header:()=><Cabecalho></Cabecalho>,
         headerTransparent:true
+      }
+    },
+    SCANER:{
+      screen:Scaner,
+      options:{
+        headerShown:false
       }
     }
   }

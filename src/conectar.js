@@ -1,11 +1,17 @@
 import { StyleSheet, View, Text } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { useNavigation } from "@react-navigation/native";
+import {useCameraPermissions } from 'expo-camera';
 
 //componentes
 import Fundo from "./components/fundo";
 import BtnUniversal from "./components/btnuniversal";
 
 export default function Conectar() {
+
+  const navegation = useNavigation();
+  const [permission, requestPermission] = useCameraPermissions();
+
   return (
     <Fundo>
       <View style={styles.caixaSuperior}>
@@ -38,7 +44,13 @@ export default function Conectar() {
       <View style={styles.caixaInferior}>
         <Text style={styles.subTitulo}>SCANEAR QRCODE</Text>
         <View style={styles.caixaBtn}>
-          <BtnUniversal icone={"direita"}></BtnUniversal>
+          <BtnUniversal icone={"direita"} evento={()=>{
+            if (!permission.granted) {
+                requestPermission();
+              }else{
+                navegation.navigate('SCANER');
+              }
+          }}></BtnUniversal>
         </View>
       </View>
     </Fundo>
