@@ -11,6 +11,7 @@ import Partilhar from "./src/partilhar";
 import Qrcode from "./src/qrcode";
 import Conectar from "./src/conectar";
 import Scaner from "./src/scaner";
+import Armazenamento from "./src/armazenamento";
 
 //componentes
 import Titulo from "./src/components/titulo";
@@ -67,6 +68,13 @@ const RooStack = createNativeStackNavigator({
       screen:Scaner,
       options:{
         headerShown:false
+      }
+    },
+    ARMAZENAMENTO:{
+      screen:Armazenamento,
+      options:{
+        header:()=><Cabecalho></Cabecalho>,
+        headerTransparent:true
       }
     }
   }

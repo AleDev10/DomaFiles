@@ -1,7 +1,7 @@
 import { TouchableOpacity, Image, StyleSheet, Text } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
-export default function BtnUniversal({ icone, evento }) {
+export default function BtnUniversal({ icone, evento,children }) {
   switch (icone) {
     case "direita":
       return (
@@ -105,6 +105,17 @@ export default function BtnUniversal({ icone, evento }) {
         </TouchableOpacity>
       );
       break;
+    case "arquivo":
+      return (
+        <TouchableOpacity onPress={evento} style={styles.btnArquivo}>
+          <Image
+            style={styles.imgArquivo}
+            source={require("../assets/icons/folder.png")}
+          ></Image>
+          {children}
+        </TouchableOpacity>
+      );
+      break;
 
     default:
       return (
@@ -181,5 +192,15 @@ const styles = StyleSheet.create({
   imgQrcode: {
     width: 120,
     height: 120,
+  },
+  btnArquivo:{
+    width:'100%',
+    flexDirection:'row',
+    alignItems:'center',
+    gap:5
+  },
+  imgArquivo:{
+    width:50,
+    height:50
   }
 });

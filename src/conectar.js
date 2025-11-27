@@ -45,11 +45,12 @@ export default function Conectar() {
         <Text style={styles.subTitulo}>SCANEAR QRCODE</Text>
         <View style={styles.caixaBtn}>
           <BtnUniversal icone={"direita"} evento={()=>{
-            if (!permission.granted) {
+            navegation.navigate('ARMAZENAMENTO');
+            /* if (!permission.granted) {
                 requestPermission();
               }else{
                 navegation.navigate('SCANER');
-              }
+              } */
           }}></BtnUniversal>
         </View>
       </View>
