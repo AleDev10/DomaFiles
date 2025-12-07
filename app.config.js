@@ -61,7 +61,7 @@ export default ({ config }) => ({
   },
   owner: "alexandre_junqueiro",
   plugins: [
-    "expo-font",
+    ["expo-font"],
     [
       "expo-camera",
       {
@@ -70,5 +70,6 @@ export default ({ config }) => ({
         recordAudioAndroid: true,
       },
     ],
+    ["expo-sqlite"],
   ],
 });
