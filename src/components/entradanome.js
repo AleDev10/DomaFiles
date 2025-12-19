@@ -1,9 +1,9 @@
 import { StyleSheet,TextInput } from "react-native";
 
-export default function EntradaNome({cor}) {
+export default function EntradaNome({cor,getValor,setValor}) {
     if (cor == 'branca') {
       return (
-        <TextInput placeholder='NOME' style={styles.entradaBranca} underlineColorAndroid={'transparent'}>
+        <TextInput onChangeText={setValor} value={getValor} placeholder='NOME' style={styles.entradaBranca} underlineColorAndroid={'transparent'}>
         </TextInput>
     );  
     } else {

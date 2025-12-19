@@ -1,6 +1,7 @@
 import {StyleSheet,View,Text} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { useState } from "react";
 
 //componentes
 import LetraInicial from "./components/letrainicial";
@@ -9,6 +10,16 @@ import EntradaNome from "./components/entradanome";
 
 export default function Inicio() {
     const navegation = useNavigation();
+    const [valorNome,setValorNome] = useState('');
+
+    function validarTexto() {
+        if (valorNome.trim()!='') {
+            console.log(valorNome.trim());
+            setValorNome('');
+            navegation.replace('HOME');
+
+        }
+    }
     
     return (
         <View style={styles.caixaPrincipal}>
@@ -17,9 +28,9 @@ export default function Inicio() {
                 <View style={styles.caixaFormulario}>
                     <Text style={styles.textoBV}>BEM-VINDO</Text>
                     <Text style={styles.textoInfo}>DOMA é um app{'\n'}que permite que{'\n'}vários Despositivos{'\n'}se conectem para{'\n'}acessar o conteudo{'\n'}do Despositivo central </Text>
-                    <EntradaNome cor={'branca'}></EntradaNome>
+                    <EntradaNome cor={'branca'} setValor={setValorNome} getValor={valorNome}></EntradaNome>
                     <BtnUniversal icone={'direita'} evento={()=>{
-                        navegation.replace('HOME');
+                        validarTexto();
                     }}>
                     </BtnUniversal>
                 </View>

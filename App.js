@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import {useFonts} from 'expo-font';
 import { createStaticNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { buscarUmRegistro,CriarDB,inserirRegistro } from "./src/db/funcoesDB";
+
 
 //janelas
 import Inicio from "./src/inicio";
@@ -17,8 +19,15 @@ import Armazenamento from "./src/armazenamento";
 import Titulo from "./src/components/titulo";
 import Cabecalho from "./src/components/cabecalho";
 
+let primeiraInicializacao = false;
+
+CriarDB();
+buscarUmRegistro();
+inserirRegistro("doma");
+
+
 const RooStack = createNativeStackNavigator({
-  initialRouteName:'INICIO',
+  initialRouteName:'',
   screenOptions:{
     headerShadowVisible:false
   },
@@ -79,6 +88,13 @@ const RooStack = createNativeStackNavigator({
     }
   }
 });
+
+if (!primeiraInicializacao) {
+  RooStack.config.initialRouteName='INICIO';
+  primeiraInicializacao=true;
+} else {
+  RooStack.config.initialRouteName='HOME';
+}
 
 const Navigation = createStaticNavigation(RooStack);
 
