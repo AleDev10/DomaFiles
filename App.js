@@ -1,9 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import {useFonts} from 'expo-font';
+import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
 import { createStaticNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { buscarUmRegistro,CriarDB,inserirRegistro } from "./src/db/funcoesDB";
-
 
 //janelas
 import Inicio from "./src/inicio";
@@ -19,94 +17,96 @@ import Armazenamento from "./src/armazenamento";
 import Titulo from "./src/components/titulo";
 import Cabecalho from "./src/components/cabecalho";
 
-let primeiraInicializacao = false;
-
-CriarDB();
-buscarUmRegistro();
-inserirRegistro("doma");
-
+//Funções externas
+import { buscarUmRegistro, CriarDB } from "./src/db/funcoesDB";
 
 const RooStack = createNativeStackNavigator({
-  initialRouteName:'',
-  screenOptions:{
-    headerShadowVisible:false
+  initialRouteName: "",
+  screenOptions: {
+    headerShadowVisible: false,
   },
-  screens:{
-    INICIO:{
-      screen:Inicio,
-      options:{
-        headerTitleAlign:'center',
-        headerTitle:()=><Titulo></Titulo>
-      }
+  screens: {
+    INICIO: {
+      screen: Inicio,
+      options: {
+        headerTitleAlign: "center",
+        headerTitle: () => <Titulo></Titulo>,
+      },
     },
-    HOME:{
-      screen:Home,
-      options:{
-        headerShown:false
-      }
+    HOME: {
+      screen: Home,
+      options: {
+        headerShown: false,
+      },
     },
-    DEFINICOES:{
-      screen:Definicoes,
-      options:{
-        header:()=><Cabecalho></Cabecalho>,
-        headerTransparent:true
-      }
+    DEFINICOES: {
+      screen: Definicoes,
+      options: {
+        header: () => <Cabecalho></Cabecalho>,
+        headerTransparent: true,
+      },
     },
-    PARTILHAR:{
-      screen:Partilhar,
-      options:{
-        header:()=><Cabecalho tipo={'verificado'}></Cabecalho>,
-        headerTransparent:true
-      }
+    PARTILHAR: {
+      screen: Partilhar,
+      options: {
+        header: () => <Cabecalho tipo={"verificado"}></Cabecalho>,
+        headerTransparent: true,
+      },
     },
-    QRCODE:{
-      screen:Qrcode,
-      options:{
-        header:()=><Cabecalho></Cabecalho>,
-        headerTransparent:true
-      }
+    QRCODE: {
+      screen: Qrcode,
+      options: {
+        header: () => <Cabecalho></Cabecalho>,
+        headerTransparent: true,
+      },
     },
-    CONECTAR:{
-      screen:Conectar,
-      options:{
-        header:()=><Cabecalho></Cabecalho>,
-        headerTransparent:true
-      }
+    CONECTAR: {
+      screen: Conectar,
+      options: {
+        header: () => <Cabecalho></Cabecalho>,
+        headerTransparent: true,
+      },
     },
-    SCANER:{
-      screen:Scaner,
-      options:{
-        headerShown:false
-      }
+    SCANER: {
+      screen: Scaner,
+      options: {
+        headerShown: false,
+      },
     },
-    ARMAZENAMENTO:{
-      screen:Armazenamento,
-      options:{
-        header:()=><Cabecalho></Cabecalho>,
-        headerTransparent:true
-      }
-    }
-  }
+    ARMAZENAMENTO: {
+      screen: Armazenamento,
+      options: {
+        header: () => <Cabecalho></Cabecalho>,
+        headerTransparent: true,
+      },
+    },
+  },
 });
 
-if (!primeiraInicializacao) {
-  RooStack.config.initialRouteName='INICIO';
-  primeiraInicializacao=true;
-} else {
-  RooStack.config.initialRouteName='HOME';
+function iniciarDB() {
+  CriarDB();
+  const retorno = buscarUmRegistro();
+  if (!retorno) {
+    RooStack.config.initialRouteName = "INICIO";
+    console.log("rota inicial: inicio");
+  } else {
+    RooStack.config.initialRouteName = "HOME";
+    console.log("rota inicial: inicio");
+  }
 }
+
+iniciarDB();
 
 const Navigation = createStaticNavigation(RooStack);
 
 export default function App() {
-
-  const [loaded,error] = useFonts({
-    'Montserrat-Black':require('./src/assets/fonts/Montserrat-Black.ttf'),
-    'Montserrat-Bold':require('./src/assets/fonts/Montserrat-Bold.ttf'),
-    'Montserrat-Medium':require('./src/assets/fonts/Montserrat-Medium.ttf'),
-    'Montserrat-Regular':require('./src/assets/fonts/Montserrat-Regular.ttf'),
-    'Montserrat-Light':require('./src/assets/fonts/Montserrat-Light.ttf'),
-    'Montserrat-Thin':require('./src/assets/fonts/Montserrat-Thin.ttf'),
+  const [loaded, error] = useFonts({
+    "Montserrat-Black": require("./src/assets/fonts/Montserrat-Black.ttf"),
+    "Montserrat-Bold": require("./src/assets/fonts/Montserrat-Bold.ttf"),
+    "Montserrat-Medium": require("./src/assets/fonts/Montserrat-Medium.ttf"),
+    "Montserrat-Regular": require("./src/assets/fonts/Montserrat-Regular.ttf"),
+    "Montserrat-Light": require("./src/assets/fonts/Montserrat-Light.ttf"),
+    "Montserrat-Thin": require("./src/assets/fonts/Montserrat-Thin.ttf"),
   });
 
   if (!loaded && !error) {
@@ -115,8 +115,8 @@ export default function App() {
 
   return (
     <>
-    <StatusBar style='auto'></StatusBar>
-    <Navigation></Navigation>
+      <StatusBar style="auto"></StatusBar>
+      <Navigation></Navigation>
     </>
   );
 }

@@ -8,7 +8,7 @@ export default function EntradaNome({cor,getValor,setValor}) {
     );  
     } else {
         return (
-        <TextInput placeholder='NOME' style={styles.entradaAzul} underlineColorAndroid={'transparent'}>
+        <TextInput onChangeText={setValor} value={getValor} placeholder='NOME' style={styles.entradaAzul} underlineColorAndroid={'transparent'}>
         </TextInput>
     ); 
     }

@@ -10,15 +10,27 @@ export function CriarDB() {
 }
 
 export function buscarUmRegistro() {
-    const retorno = db.getAllSync(`SELECT * FROM perfil`);
-    console.log("Dados do perfil ativo:", retorno);
+  const retorno = db.getFirstSync(`SELECT * FROM perfil order by id desc`);
+  console.log("Dados do perfil ativo:", retorno);
+  return retorno;
 }
 export function apagarTabela() {
-    const retorno = db.runSync(`DROP TABLE perfil;`);
-    console.log('tabela apagada com sucesso');
+  const retorno = db.runSync(`DROP TABLE perfil;`);
+  console.log("tabela apagada com sucesso");
 }
 
 export function inserirRegistro(texto) {
-    const retorno = db.runSync(`INSERT INTO perfil (nome, estado) VALUES (?, ?)`, texto, 1);
-    console.log('Registro inserido',retorno);
+  const retorno = db.runSync(
+    `INSERT INTO perfil (nome, estado) VALUES (?, ?)`,
+    texto,
+    1
+  );
+  console.log(
+    `Registro inserido id gerado:${retorno.lastInsertRowId}, linhas afetadas:${retorno.changes}`
+  );
+}
+
+export function buscarTodosRegistros() {
+  const retorno = db.getAllSync(`SELECT * FROM perfil`);
+  console.log("Dados do perfil:", retorno);
 }
