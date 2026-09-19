@@ -1,14 +1,13 @@
 import { StyleSheet, View, Text } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { useNavigation } from "@react-navigation/native";
-import {useCameraPermissions } from 'expo-camera';
+import { useCameraPermissions } from "expo-camera";
 
 //componentes
 import Fundo from "./components/fundo";
 import BtnUniversal from "./components/btnuniversal";
 
 export default function Conectar() {
-
   const navegation = useNavigation();
   const [permission, requestPermission] = useCameraPermissions();
 
@@ -44,14 +43,17 @@ export default function Conectar() {
       <View style={styles.caixaInferior}>
         <Text style={styles.subTitulo}>SCANEAR QRCODE</Text>
         <View style={styles.caixaBtn}>
-          <BtnUniversal icone={"direita"} evento={()=>{
-            navegation.navigate('ARMAZENAMENTO');
-            /* if (!permission.granted) {
+          <BtnUniversal
+            icone={"direita"}
+            evento={() => {
+              //navegation.navigate('ARMAZENAMENTO');
+              if (!permission.granted) {
                 requestPermission();
               }else{
                 navegation.navigate('SCANER');
-              } */
-          }}></BtnUniversal>
+              }
+            }}
+          ></BtnUniversal>
         </View>
       </View>
     </Fundo>
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
   },
   caixaInfoBt: {
     flexDirection: "row",
-    justifyContent:'space-between'
+    justifyContent: "space-between",
   },
   caixaTitulo: {
     gap: 20,
@@ -103,14 +105,14 @@ const styles = StyleSheet.create({
     height: "40%",
     padding: 20,
     alignItems: "center",
-    gap:10
+    gap: 10,
   },
-  caixaBtn:{
-    backgroundColor:'#fff',
-    flex:1,
-    width:'100%',
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius:20
-  }
+  caixaBtn: {
+    backgroundColor: "#fff",
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+  },
 });
