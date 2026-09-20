@@ -1,5 +1,5 @@
 import { HttpServer } from "react-native-nitro-http-server";
-import * as Network from "expo-network";
+import { getLocalIp } from 'react-native-local-network-info';
 
 import { requisição } from "./controller/iniciarServidorController";
 
@@ -28,10 +28,10 @@ export async function pararServidor() {
 
 export async function obterIP() {
   try {
-    const ip = await Network.getIpAddressAsync();
+    const info = await getLocalIp();
+    console.log("Rede local:", info);
 
-    console.log("IP local:", ip);
-    return ip;
+    return info.gateway;
   } catch (error) {
     console.log("Erro ao obter IP");
   }
