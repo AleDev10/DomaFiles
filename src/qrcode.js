@@ -1,10 +1,42 @@
 import { StyleSheet, View, Text, Image } from "react-native";
 import { RFPercentage,RFValue } from "react-native-responsive-fontsize";
+import {useEffect, useState} from "react";
 
 //componentes
 import Fundo from "./components/fundo";
 
+//serviços
+import { iniciarServidor, obterIP, pararServidor } from "./server/servidor";
+
 export default function Qrcode() {
+
+  const [porta, setPorta] = useState(0);
+  const [ip, setIp] = useState("");
+  const [carregar, setCarregar] = useState(false);
+
+  useEffect(() => {
+  const port = iniciarServidor();
+  setPorta(port);
+
+  const ip = obterIP();
+  setIp(ip);
+
+  setCarregar(true);
+
+  return () => {
+    pararServidor();
+  };
+}, []);
+
+if (!carregar) {
+  return (
+    <Fundo>
+      <View style={styles.caixaSecundaria}>
+        <Text>Carregando...</Text>
+      </View>
+    </Fundo>
+  );
+}
   return (
     <Fundo>
       <View style={styles.caixaSecundaria}>
@@ -16,7 +48,7 @@ export default function Qrcode() {
           <Image source={require('./assets/icons/qrcodelink.png')} style={styles.qrcode} ></Image>
           <Text style={styles.textoOpcao}>OU DIGITE</Text>
           <View style={styles.caixaUrl}>
-            <Text style={styles.textoUrl}>http://192.168.0.1:5000</Text>
+            <Text style={styles.textoUrl}>http://{ip}:{porta}</Text>
           </View>
         </View>
       </View>
