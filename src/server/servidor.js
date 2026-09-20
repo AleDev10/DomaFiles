@@ -29,9 +29,8 @@ export async function pararServidor() {
 export async function obterIP() {
   try {
     const info = await getLocalIp();
-    console.log("Rede local:", info);
+    return info.ip;
 
-    return info.gateway;
   } catch (error) {
     console.log("Erro ao obter IP");
   }
