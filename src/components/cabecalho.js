@@ -26,7 +26,6 @@ export default function Cabecalho({ tipo }) {
           <ModalOpcao></ModalOpcao>
         </View>
       );
-      break;
 
     default:
       return (
@@ -44,7 +43,6 @@ export default function Cabecalho({ tipo }) {
           <Titulo posicao={"esquerda"}></Titulo>
         </View>
       );
-      break;
   }
 }
 

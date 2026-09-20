@@ -49,7 +49,7 @@ const RooStack = createNativeStackNavigator({
     PARTILHAR: {
       screen: Partilhar,
       options: {
-        header: () => <Cabecalho tipo={"verificado"}></Cabecalho>,
+        header: () => <Cabecalho></Cabecalho>,
         headerTransparent: true,
       },
     },
@@ -88,10 +88,10 @@ function iniciarDB() {
   const retorno = buscarUmRegistro();
   if (!retorno) {
     RooStack.config.initialRouteName = "INICIO";
-    console.log("rota inicial: inicio");
+    console.log("rota inicial: INICIO");
   } else {
     RooStack.config.initialRouteName = "HOME";
-    console.log("rota inicial: inicio");
+    console.log("rota inicial: HOME");
   }
 }
 
