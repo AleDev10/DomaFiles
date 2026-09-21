@@ -12,7 +12,6 @@ import Fundo from "./components/fundo";
 import { iniciarServidor, obterIP, pararServidor } from "./server/servidor";
 
 export default function Partilhar2() {
-
   const [qrCode, setQrCode] = useState(false);
   const [porta, setPorta] = useState(0);
   const [ip, setIp] = useState("");
@@ -26,8 +25,26 @@ export default function Partilhar2() {
     setIp(ipRede);
   };
 
+  const chat = () => {
+    const ws = new WebSocket(`ws://192.168.157.70:2000/ws`);
+
+    ws.onopen = () => {
+      console.log("Despositivo central");
+      ws.send("alex");
+    };
+
+    ws.onmessage = (event) => {
+      console.log("Resposta:", event.data);
+    };
+
+    ws.onclose = () => {
+      console.log("Conexão encerrada");
+    };
+  };
+
   const pararCarregamento = () => {
     setTimeout(() => {
+      chat();
       setCarregar(true);
     }, 1000);
   };
