@@ -116,6 +116,16 @@ export default function BtnUniversal({ icone, evento,children }) {
         </TouchableOpacity>
       );
       break;
+      case "detalhes":
+      return (
+        <TouchableOpacity onPress={evento} style={styles.btnAzul2}>
+          <Image
+            source={require("../assets/icons/lista.png")}
+            style={styles.imgBranco}
+          ></Image>
+        </TouchableOpacity>
+      );
+      break;
 
     default:
       return (
@@ -150,6 +160,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     width: "40%",
+    gap: 5,
+  },
+  btnAzul2: {
+    backgroundColor: "#0f50a6",
+    padding: 20,
+    borderRadius: 20,
+    alignItems: "center",
+    width: "100%",
     gap: 5,
   },
   imgBtnAzul: {

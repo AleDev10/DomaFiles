@@ -7,7 +7,7 @@ const server = new HttpServer();
 
 export async function iniciarServidor() {
   try {
-    const port = await server.start(5000, requisição, { host: "0.0.0.0" });
+    const port = await server.start(2000, requisição, { host: "0.0.0.0" });
 
     console.log(`Servidor iniciado na porta ${port}`);
 

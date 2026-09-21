@@ -8,7 +8,6 @@ import Inicio from "./src/inicio";
 import Home from "./src/home";
 import Definicoes from "./src/definicoes";
 import Partilhar from "./src/partilhar";
-import Qrcode from "./src/qrcode";
 import Conectar from "./src/conectar";
 import Scaner from "./src/scaner";
 import Armazenamento from "./src/armazenamento";
@@ -48,13 +47,6 @@ const RooStack = createNativeStackNavigator({
     },
     PARTILHAR: {
       screen: Partilhar,
-      options: {
-        header: () => <Cabecalho></Cabecalho>,
-        headerTransparent: true,
-      },
-    },
-    QRCODE: {
-      screen: Qrcode,
       options: {
         header: () => <Cabecalho></Cabecalho>,
         headerTransparent: true,
