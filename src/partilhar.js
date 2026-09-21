@@ -16,6 +16,7 @@ export default function Partilhar2() {
   const [porta, setPorta] = useState(0);
   const [ip, setIp] = useState("");
   const [carregar, setCarregar] = useState(false);
+  const [clientes, setClientes] = useState([]);
 
   const obterInfoRede = async () => {
     const port = await iniciarServidor();
@@ -28,17 +29,9 @@ export default function Partilhar2() {
   const chat = () => {
     const ws = new WebSocket(`ws://192.168.157.70:2000/ws`);
 
-    ws.onopen = () => {
-      console.log("Despositivo central");
-      ws.send("alex");
-    };
-
     ws.onmessage = (event) => {
-      console.log("Resposta:", event.data);
-    };
-
-    ws.onclose = () => {
-      console.log("Conexão encerrada");
+      console.log("Respostas do servidor:", event.data);
+      setClientes((atuais) => [...atuais, event.data]);
     };
   };
 
@@ -129,24 +122,11 @@ export default function Partilhar2() {
       <View style={styles.caixaInferior}>
         <Text style={styles.textoDispositivos}>DISPOSITIVOS CONECTADOS</Text>
         <ScrollView style={styles.caixaDispositivos}>
-          <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-          </View>
-          <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-          </View>
-          <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-          </View>
-          <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-          </View>
-          <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-          </View>
-          <View style={styles.conectados}>
-            <Dispositivos inicial={"A"} nome={"ALEXANDRE"}></Dispositivos>
-          </View>
+          {clientes.map((id, index) => (
+            <View style={styles.conectados} key={index}>
+              <Dispositivos inicial={"A"} nome={id}></Dispositivos>
+            </View>
+          ))}
         </ScrollView>
       </View>
     </Fundo>
