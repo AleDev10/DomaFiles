@@ -11,7 +11,7 @@ export async function iniciarServidor() {
     server.onWebSocket("/ws", socket);
 
     const port = await server.start(
-      2000,
+      3000,
       requisição,
       {
         mounts: [

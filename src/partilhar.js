@@ -50,7 +50,7 @@ export default function Partilhar2() {
 
     ws.onmessage = (event) => {
       console.log("Respostas do servidor:", event.data);
-      setClientes((atuais) => [...atuais, event.data]);
+      setClientes(() => [event.data]);
     };
 
     return () => {
