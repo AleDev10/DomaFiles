@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import QrCode from "react-native-qrcode-svg";
 
 //COMPONENTES
@@ -13,43 +13,52 @@ import { iniciarServidor, obterIP, pararServidor } from "./server/servidor";
 
 export default function Partilhar2() {
   const [qrCode, setQrCode] = useState(false);
-  const [porta, setPorta] = useState(0);
+  const [porta, setPorta] = useState(null);
   const [ip, setIp] = useState("");
-  const [carregar, setCarregar] = useState(false);
   const [clientes, setClientes] = useState([]);
 
-  const obterInfoRede = async () => {
-    const port = await iniciarServidor();
-    setPorta(port);
+  const wsRef = useRef(null);
 
-    const ipRede = await obterIP();
-    setIp(ipRede);
-  };
+  useEffect(() => {
+    let montado = true;
 
-  const chat = () => {
-    const ws = new WebSocket(`ws://192.168.157.70:2000/ws`);
+    (async () => {
+      const port = await iniciarServidor();
+      const ipRede = await obterIP();
+
+      if (!montado) return;
+      setPorta(port);
+      setIp(ipRede);
+    })();
+
+    return () => {
+      montado = false;
+      wsRef.current?.close();
+      wsRef.current = null;
+      pararServidor();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!ip || !porta) return;
+
+    const url = `ws://${ip}:${porta}/ws`;
+    console.log("Conectando WS em:", url);
+
+    const ws = new WebSocket(url);
+    wsRef.current = ws;
 
     ws.onmessage = (event) => {
       console.log("Respostas do servidor:", event.data);
       setClientes((atuais) => [...atuais, event.data]);
     };
-  };
-
-  const pararCarregamento = () => {
-    setTimeout(() => {
-      chat();
-      setCarregar(true);
-    }, 1000);
-  };
-
-  useEffect(() => {
-    obterInfoRede();
-    pararCarregamento();
 
     return () => {
-      pararServidor();
+      ws.close();
     };
-  }, []);
+  }, [ip, porta]);
+
+  const carregar = Boolean(ip && porta);
 
   if (!carregar) {
     return (
