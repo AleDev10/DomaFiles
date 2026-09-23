@@ -2,10 +2,34 @@ let proximoId = 1;
 
 const clientes = new Map();
 
+function adicionarCliente(id) {
+  clientes.forEach((ws) => {
+    ws.send(
+      JSON.stringify({
+        info: "adicionar-cliente",
+        menssagem: {
+          user: id,
+        },
+      }),
+    );
+  });
+}
+
 function listarCliente() {
   clientes.forEach((ws) => {
-    ws.send(Array.from(clientes.keys()));  
+    ws.send(
+      JSON.stringify({
+        info: "listar-clientes",
+        menssagem: {
+          users: Array.from(clientes.keys()),
+        },
+      }),
+    );
   });
+}
+
+export function deletarClientes() {
+  ((proximoId = 1), clientes.clear());
 }
 
 export const socket = (ws, request) => {
@@ -13,22 +37,17 @@ export const socket = (ws, request) => {
 
   clientes.set(id, ws);
 
-  listarCliente();
-
-  console.log("Cliente conectado:", id);
+  adicionarCliente(id);
 
   ws.onmessage = (event) => {
     console.log("Mensagem recebida:", event.data);
-
-    ws.send("servisor respondeu"+event.data);
   };
 
-  ws.onclose = (event) => {
-    console.log("Cliente desconectado:");
+  ws.onclose = () => {
+    console.log("Cliente desconectado:", id);
 
-    clientes.forEach((ws, index) => {
-      console.log(ws._connectionId);
-      console.log(index);
-    });
+    clientes.delete(id);
+
+    listarCliente();
   };
 };

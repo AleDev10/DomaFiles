@@ -10,6 +10,7 @@ import Fundo from "./components/fundo";
 
 //SERVIÇOS
 import { iniciarServidor, obterIP, pararServidor } from "./server/servidor";
+import { deletarClientes } from "./server/controller/socketController";
 
 export default function Partilhar2() {
   const [qrCode, setQrCode] = useState(false);
@@ -18,6 +19,18 @@ export default function Partilhar2() {
   const [clientes, setClientes] = useState([]);
 
   const wsRef = useRef(null);
+
+  function tratarMenssagem(mensagem) {
+    const dados = JSON.parse(mensagem);
+
+    if (dados.info === "adicionar-cliente") {
+      setClientes((atuais) => [...atuais, dados.menssagem.user]);
+    }
+
+    if (dados.info === "listar-clientes") {
+      setClientes(dados.menssagem.users);
+    }
+  }
 
   useEffect(() => {
     let montado = true;
@@ -35,6 +48,7 @@ export default function Partilhar2() {
       montado = false;
       wsRef.current?.close();
       wsRef.current = null;
+      deletarClientes();
       pararServidor();
     };
   }, []);
@@ -50,10 +64,11 @@ export default function Partilhar2() {
 
     ws.onmessage = (event) => {
       console.log("Respostas do servidor:", event.data);
-      setClientes(() => [event.data]);
+      tratarMenssagem(event.data);
     };
 
     return () => {
+      ws.send("apagar");
       ws.close();
     };
   }, [ip, porta]);
