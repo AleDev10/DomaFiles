@@ -1,27 +1,38 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFPercentage} from "react-native-responsive-fontsize";
 import { useEffect, useState, useRef } from "react";
-import QrCode from "react-native-qrcode-svg";
 
 //COMPONENTES
 import BtnUniversal from "./components/btnuniversal";
 import Dispositivos from "./components/dispositivos";
 import Fundo from "./components/fundo";
+import QrCodeView from "./components/qrCodeView";
+import Erro from "./components/erro";
 
 //SERVIÇOS
 import { iniciarServidor, obterIP, pararServidor } from "./server/servidor";
 import { deletarClientes } from "./server/controller/socketController";
 
-export default function Partilhar2() {
+export default function Partilhar() {
+
   const [qrCode, setQrCode] = useState(false);
   const [porta, setPorta] = useState(null);
   const [ip, setIp] = useState("");
   const [clientes, setClientes] = useState([]);
 
+  const [estado, setEstado] = useState("carregando");
+  const [mensagemErro, setMensagemErro] = useState("");
+
   const wsRef = useRef(null);
 
-  function tratarMenssagem(mensagem) {
-    const dados = JSON.parse(mensagem);
+  function tratarMensagem(mensagem) {
+    let dados;
+    try {
+      dados = JSON.parse(mensagem);
+    } catch (erro) {
+      console.error("erro ao tratar mensagem");
+      return;
+    }
 
     if (dados.info === "adicionar-cliente") {
       setClientes((atuais) => [...atuais, dados.menssagem.user]);
@@ -35,19 +46,38 @@ export default function Partilhar2() {
   useEffect(() => {
     let montado = true;
 
-    (async () => {
-      const port = await iniciarServidor();
-      const ipRede = await obterIP();
+    async function iniciar() {
+      try {
+        const port = await iniciarServidorr();
+        const ipRede = await obterIP();
 
-      if (!montado) return;
-      setPorta(port);
-      setIp(ipRede);
-    })();
+        if (!montado) return;
+
+        if (!port || !ipRede) {
+          setMensagemErro("Sem IP ou porta");
+          setEstado("carregando");
+          return;
+        }
+
+        setPorta(port);
+        setIp(ipRede);
+        setEstado("pronto");
+      } catch (erro) {
+        console.error("Erro ao iniciar servidor");
+        if (!montado) return;
+        setMensagemErro("Erro ao iniciar o servidor");
+        setEstado("erro");
+      }
+    }
+
+    iniciar();
 
     return () => {
       montado = false;
-      wsRef.current?.close();
-      wsRef.current = null;
+      if (wsRef.current) {
+        wsRef.current.close();
+        wsRef.current = null;
+      }
       deletarClientes();
       pararServidor();
     };
@@ -59,59 +89,38 @@ export default function Partilhar2() {
     const url = `ws://${ip}:${porta}/ws`;
     console.log("Conectando WS em:", url);
 
-    const ws = new WebSocket(url);
+    let ws;
+    try {
+      ws = new WebSocket(url);
+    } catch (erro) {
+      console.error("Erro ao abrir WebSocket:");
+      setMensagemErro("Não foi possível conectar ao servidor socket");
+      setEstado("erro");
+      return;
+    }
+
     wsRef.current = ws;
 
     ws.onmessage = (event) => {
-      console.log("Respostas do servidor:", event.data);
-      tratarMenssagem(event.data);
+      tratarMensagem(event.data);
     };
 
     return () => {
-      ws.send("apagar");
+      try {
+        ws.send("apagar");
+      } catch (erro) {
+        console.log("Erro ao enviar 'apagar':", erro);
+      }
       ws.close();
     };
   }, [ip, porta]);
 
-  const carregar = Boolean(ip && porta);
-
-  if (!carregar) {
-    return (
-      <Fundo>
-        <View style={styles.caixaSecundaria}>
-          <Text>Carregando...</Text>
-        </View>
-      </Fundo>
-    );
-  }
+  if (estado === "carregando") return <Erro mensagem="carregando" />;
+  if (estado === "erro") return <Erro mensagem={mensagemErro} tipo="tipo2"/>;
 
   if (qrCode) {
     return (
-      <Fundo>
-        <View style={styles.caixaSecundaria}>
-          <View style={styles.caixaTexto}>
-            <Text style={styles.titulo}>QRCODE</Text>
-            <Text style={styles.frase}>SCANEIE PARA SE CONECTAR</Text>
-          </View>
-          <View style={styles.caixaQrcode}>
-            <QrCode value={`http://${ip}:${porta}`} size={300} />
-            <Text style={styles.textoOpcao}>OU DIGITE</Text>
-            <View style={styles.caixaUrl}>
-              <Text style={styles.textoUrl}>
-                http://{ip}:{porta}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.caixaBtnBranco}>
-            <BtnUniversal
-              icone={"detalhes"}
-              evento={() => {
-                setQrCode(false);
-              }}
-            ></BtnUniversal>
-          </View>
-        </View>
-      </Fundo>
+      <QrCodeView ip={ip} porta={porta} aoVoltar={() => setQrCode(false)} />
     );
   }
 
@@ -135,20 +144,16 @@ export default function Partilhar2() {
           </View>
         </View>
         <View>
-          <BtnUniversal
-            icone={"qrcode"}
-            evento={() => {
-              setQrCode(true);
-            }}
-          ></BtnUniversal>
+          <BtnUniversal icone={"qrcode"} evento={() => setQrCode(true)} />
         </View>
       </View>
+
       <View style={styles.caixaInferior}>
         <Text style={styles.textoDispositivos}>DISPOSITIVOS CONECTADOS</Text>
         <ScrollView style={styles.caixaDispositivos}>
           {clientes.map((id, index) => (
             <View style={styles.conectados} key={index}>
-              <Dispositivos inicial={"A"} nome={id}></Dispositivos>
+              <Dispositivos inicial={"A"} nome={id} />
             </View>
           ))}
         </ScrollView>
@@ -203,53 +208,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     gap: 5,
-  },
-  caixaSecundaria: {
-    width: "100%",
-    height: "100%",
-    padding: 10,
-    gap: 10,
-  },
-  caixaTexto: {
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  titulo: {
-    fontFamily: "Montserrat-Black",
-    fontSize: RFPercentage(3.5),
-    color: "#fff",
-  },
-  frase: {
-    fontFamily: "Montserrat-Medium",
-    fontSize: RFPercentage(1.5),
-    color: "#fff",
-  },
-  caixaQrcode: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 20,
-    alignItems: "center",
-    gap: 10,
-    height: "65%",
-  },
-  qrcode: {
-    width: 300,
-    height: 300,
-  },
-  textoOpcao: {
-    fontFamily: "Montserrat-Medium",
-    fontSize: RFPercentage(1.5),
-  },
-  caixaUrl: {
-    backgroundColor: "#0f50a6",
-    padding: 20,
-    alignItems: "center",
-    borderRadius: 20,
-    width: "100%",
-  },
-  textoUrl: {
-    fontFamily: "Montserrat-Medium",
-    fontSize: RFValue(15),
-    color: "#fff",
   },
 });
