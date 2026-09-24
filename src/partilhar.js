@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
-import { RFPercentage} from "react-native-responsive-fontsize";
+import { RFPercentage } from "react-native-responsive-fontsize";
 import { useEffect, useState, useRef } from "react";
 
 //COMPONENTES
@@ -12,9 +12,9 @@ import Erro from "./components/erro";
 //SERVIÇOS
 import { iniciarServidor, obterIP, pararServidor } from "./server/servidor";
 import { deletarClientes } from "./server/controller/socketController";
+import Carregar from "./components/carregar";
 
 export default function Partilhar() {
-
   const [qrCode, setQrCode] = useState(false);
   const [porta, setPorta] = useState(null);
   const [ip, setIp] = useState("");
@@ -48,7 +48,7 @@ export default function Partilhar() {
 
     async function iniciar() {
       try {
-        const port = await iniciarServidorr();
+        const port = await iniciarServidor();
         const ipRede = await obterIP();
 
         if (!montado) return;
@@ -115,8 +115,8 @@ export default function Partilhar() {
     };
   }, [ip, porta]);
 
-  if (estado === "carregando") return <Erro mensagem="carregando" />;
-  if (estado === "erro") return <Erro mensagem={mensagemErro} tipo="tipo2"/>;
+  if (estado === "carregando") return <Carregar tipo="fundo"></Carregar>;
+  if (estado === "erro") return <Erro mensagem={mensagemErro} tipo="tipo2" />;
 
   if (qrCode) {
     return (

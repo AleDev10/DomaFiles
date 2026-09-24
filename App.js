@@ -20,6 +20,7 @@ import Cabecalho from "./src/components/cabecalho";
 //Funções externas
 import { buscarUmRegistro, CriarDB } from "./src/db/funcoesDB";
 import Erro from "./src/components/erro";
+import Carregar from "./src/components/carregar";
 
 const fontes = {
   "Montserrat-Black": require("./src/assets/fonts/Montserrat-Black.ttf"),
@@ -131,7 +132,7 @@ export default function App() {
     return (
       <>
         <StatusBar style="auto"></StatusBar>
-        <Erro/>
+        <Carregar tipo="fundoInicio"/>
       </>
     );
   }

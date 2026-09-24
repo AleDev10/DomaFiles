@@ -1,0 +1,108 @@
+import { View, StyleSheet } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { StatusBar } from "expo-status-bar";
+
+import { CircleLoadingIndicator } from "./molecules/circle-loader";
+import FundoInicio from "./fundoInicio";
+import Fundo from "./fundo";
+
+export default function Carregar({ tipo }) {
+  switch (tipo) {
+    case "fundoInicio":
+      return (
+        <FundoInicio>
+          <GestureHandlerRootView style={styles.container}>
+            <StatusBar style="light" />
+            <View style={styles.content}>
+              <CircleLoadingIndicator
+                dotSpacing={8}
+                dotColor="#fff"
+                style={{
+                  marginTop: 60,
+                }}
+                duration={500}
+              />
+            </View>
+          </GestureHandlerRootView>
+        </FundoInicio>
+      );
+    case "fundo":
+      return (
+        <Fundo>
+          <GestureHandlerRootView style={styles.container}>
+            <StatusBar style="light" />
+            <View style={styles.content}>
+              <CircleLoadingIndicator
+                dotSpacing={8}
+                dotColor="#fff"
+                style={{
+                  marginTop: 60,
+                }}
+                duration={500}
+              />
+            </View>
+          </GestureHandlerRootView>
+        </Fundo>
+      );
+
+    default:
+      break;
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  content: {
+    paddingHorizontal: 20,
+    gap: 0,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#fff",
+  },
+  subtitle: {
+    fontSize: 15,
+    color: "#555",
+  },
+  card: {
+    backgroundColor: "#141414",
+    borderRadius: 16,
+    overflow: "hidden",
+    marginTop: 20,
+  },
+  triggerContent: {
+    padding: 16,
+  },
+  triggerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  triggerText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#fff",
+  },
+  item: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    padding: 14,
+    backgroundColor: "#1a1a1a",
+    borderRadius: 12,
+    marginBottom: 6,
+  },
+  itemText: {
+    fontSize: 15,
+    color: "#fff",
+  },
+  destructiveText: {
+    color: "#ff453a",
+  },
+});
