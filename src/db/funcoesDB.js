@@ -4,33 +4,31 @@ const db = SQLite.openDatabaseSync("./doma.db");
 
 export function CriarDB() {
   const retorno = db.runSync(
-    `CREATE TABLE IF NOT EXISTS perfil (id INTEGER PRIMARY KEY NOT NULL, nome TEXT NOT NULL, estado INTEGER);`
+    `CREATE TABLE IF NOT EXISTS perfil (id INTEGER PRIMARY KEY NOT NULL, nome TEXT NOT NULL, estado INTEGER);`,
   );
-  console.log("tabela criada com sucesso");
+  console.log("Tabela criada");
 }
 
 export function buscarUmRegistro() {
   const retorno = db.getFirstSync(`SELECT * FROM perfil order by id desc`);
-  console.log("Dados do perfil ativo:", retorno);
+  console.log("Perfil ativo:", retorno);
   return retorno;
 }
 export function apagarTabela() {
   const retorno = db.runSync(`DROP TABLE perfil;`);
-  console.log("tabela apagada com sucesso");
+  console.log("Tabela apagada");
 }
 
 export function inserirRegistro(texto) {
   const retorno = db.runSync(
     `INSERT INTO perfil (nome, estado) VALUES (?, ?)`,
     texto,
-    1
+    1,
   );
-  console.log(
-    `Registro inserido id gerado:${retorno.lastInsertRowId}, linhas afetadas:${retorno.changes}`
-  );
+  console.log("Perfil criado:", texto);
 }
 
 export function buscarTodosRegistros() {
   const retorno = db.getAllSync(`SELECT * FROM perfil`);
-  console.log("Dados do perfil:", retorno);
+  console.log("Perfis:", retorno);
 }

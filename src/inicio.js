@@ -15,12 +15,16 @@ export default function Inicio() {
   const navegation = useNavigation();
   const [valorNome, setValorNome] = useState("");
 
+  function criarPerfil(nome) {
+    inserirRegistro(nome);
+    setValorNome("");
+    navegation.replace("HOME");
+  }
+
   function validarTexto() {
-    if (valorNome.trim() != "") {
-      console.log('Nome de usuario inserido:',valorNome.trim());
-      inserirRegistro(valorNome.trim());
-      setValorNome("");
-      navegation.replace("HOME");
+    const nome = valorNome.trim();
+    if (nome != "") {
+      criarPerfil(nome);
     }
   }
 
@@ -32,7 +36,8 @@ export default function Inicio() {
           <Text style={styles.textoBV}>BEM-VINDO</Text>
           <Text style={styles.textoInfo}>
             DOMA é um app{"\n"}que permite que{"\n"}vários Despositivos{"\n"}se
-            conectem para{"\n"}acessar o conteudo{"\n"}do Despositivo central{" "}
+            conectem para{"\n"}acessar o conteudo{"\n"}do Despositivo
+            central{" "}
           </Text>
           <EntradaNome
             cor={"branca"}

@@ -18,7 +18,7 @@ export default function Scaner() {
         if (data && !qrcodeFechado.current) {
             qrcodeFechado.current=true;
             setTimeout(()=>{
-                console.log(data);
+                console.log("Scan: "+data);
                 qrcodeFechado.current=false;
                 navegation.goBack();
             },500);

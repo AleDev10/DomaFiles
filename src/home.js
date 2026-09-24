@@ -14,7 +14,7 @@ export default function Home() {
       await startActivityAsync("android.settings.TETHER_SETTINGS");
       navegation.navigate("PARTILHAR");
     } catch (error) {
-      console.error("Não foi possível abrir as configurações de hotspot");
+      console.error("Erro abrindo HOSTPOT");
     }
   }
 
