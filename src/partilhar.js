@@ -23,14 +23,12 @@ export default function Partilhar() {
   const [estado, setEstado] = useState("carregando");
   const [mensagemErro, setMensagemErro] = useState("");
 
-  const wsRef = useRef(null);
-
   function tratarMensagem(mensagem) {
     let dados;
     try {
       dados = JSON.parse(mensagem);
     } catch (erro) {
-      console.error("erro ao tratar mensagem");
+      console.error("Erro ao tratar mensagem");
       return;
     }
 
@@ -54,7 +52,6 @@ export default function Partilhar() {
         if (!montado) return;
 
         if (!port || !ipRede) {
-          setMensagemErro("Sem IP ou porta");
           setEstado("carregando");
           return;
         }
@@ -74,10 +71,6 @@ export default function Partilhar() {
 
     return () => {
       montado = false;
-      if (wsRef.current) {
-        wsRef.current.close();
-        wsRef.current = null;
-      }
       deletarClientes();
       pararServidor();
     };
@@ -87,30 +80,39 @@ export default function Partilhar() {
     if (!ip || !porta) return;
 
     const url = `ws://${ip}:${porta}/ws`;
-    console.log("Conectando WS em:", url);
+    console.log("Endereço:", url);
 
     let ws;
+
     try {
       ws = new WebSocket(url);
     } catch (erro) {
-      console.error("Erro ao abrir WebSocket:");
-      setMensagemErro("Não foi possível conectar ao servidor socket");
+      console.error("Erro ao abrir WebSocket");
+      setMensagemErro("Erro ao abrir WebSocket");
       setEstado("erro");
       return;
     }
 
-    wsRef.current = ws;
+    ws.onopen = () => {
+      console.log("WebSocket conectado");
+      setClientes((atuais) => [...atuais, "Servidor"]);
+    };
+
+    ws.onclose = (evento) => {
+      console.log("WebSocket fechado");
+    };
 
     ws.onmessage = (event) => {
       tratarMensagem(event.data);
     };
 
+    ws.onerror = (erro) => {
+      console.error("ERRO WEBSOCKET");
+      setMensagemErro("Erro WebSocket");
+      setEstado("erro");
+    };
+
     return () => {
-      try {
-        ws.send("apagar");
-      } catch (erro) {
-        console.log("Erro ao enviar 'apagar':", erro);
-      }
       ws.close();
     };
   }, [ip, porta]);
@@ -118,11 +120,10 @@ export default function Partilhar() {
   if (estado === "carregando") return <Carregar tipo="fundo"></Carregar>;
   if (estado === "erro") return <Erro mensagem={mensagemErro} tipo="tipo2" />;
 
-  if (qrCode) {
+  if (qrCode)
     return (
       <QrCodeView ip={ip} porta={porta} aoVoltar={() => setQrCode(false)} />
     );
-  }
 
   return (
     <Fundo style={styles.caixaPrincipal}>

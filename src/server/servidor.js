@@ -1,4 +1,4 @@
-import { HttpServer, ConfigServer } from "react-native-nitro-http-server";
+import { ConfigServer } from "react-native-nitro-http-server";
 import { getLocalIp } from "react-native-local-network-info";
 
 import { requisição } from "./controller/iniciarServidorController";
@@ -23,8 +23,6 @@ export async function iniciarServidor() {
       },
       { host: "0.0.0.0" },
     );
-
-    console.log(`Servidor iniciado na porta ${port}`);
 
     return port;
   } catch (error) {
