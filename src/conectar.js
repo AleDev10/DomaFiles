@@ -6,10 +6,19 @@ import { useCameraPermissions } from "expo-camera";
 //componentes
 import Fundo from "./components/fundo";
 import BtnUniversal from "./components/btnuniversal";
+import { ActivityAction, startActivityAsync } from "expo-intent-launcher";
 
 export default function Conectar() {
   const navegation = useNavigation();
   const [permission, requestPermission] = useCameraPermissions();
+
+   async function abrirMenuWIFI() {
+    try {
+      await startActivityAsync(ActivityAction.WIFI_SETTINGS);
+    } catch (error) {
+      console.error("Erro abrindo MENU WIFI",error);
+    }
+  }
 
   return (
     <Fundo>
@@ -26,7 +35,9 @@ export default function Conectar() {
               2-CERTIFIQUE-SE QUE{"\n"}ESTÁ CONECTADO A REDE
             </Text>
           </View>
-          <BtnUniversal icone={"acesso"}></BtnUniversal>
+          <BtnUniversal icone={"acesso"} evento={()=>{
+            abrirMenuWIFI()
+          }}></BtnUniversal>
         </View>
         <Text style={styles.paragrafo2}>
           3-SCANEIA O QRCODE{"\n"}NO DISPOSITIVO CENTRAL
@@ -46,7 +57,6 @@ export default function Conectar() {
           <BtnUniversal
             icone={"direita"}
             evento={() => {
-              //navegation.navigate('ARMAZENAMENTO');
               if (!permission.granted) {
                 requestPermission();
               }else{
