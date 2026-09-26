@@ -2,23 +2,41 @@ import { StyleSheet, View, Text } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { useNavigation } from "@react-navigation/native";
 import { useCameraPermissions } from "expo-camera";
+import { useState } from "react";
+import { ActivityAction, startActivityAsync } from "expo-intent-launcher";
 
 //componentes
 import Fundo from "./components/fundo";
 import BtnUniversal from "./components/btnuniversal";
-import { ActivityAction, startActivityAsync } from "expo-intent-launcher";
+import Carregar from "./components/carregar";
+import Erro from "./components/erro";
 
 export default function Conectar() {
   const navegation = useNavigation();
   const [permission, requestPermission] = useCameraPermissions();
 
-   async function abrirMenuWIFI() {
+  const [estado, setEstado] = useState("pronto");
+  const [mensagemErro, setMensagemErro] = useState("");
+
+  async function abrirMenuWIFI() {
     try {
-      await startActivityAsync(ActivityAction.WIFI_SETTINGS);
-    } catch (error) {
-      console.error("Erro abrindo MENU WIFI",error);
+      const resultado = await startActivityAsync(ActivityAction.WIFI_SETTINGS);
+
+      if (!resultado) {
+        setEstado("carregando");
+        return;
+      }
+
+      setEstado("pronto");
+    } catch (erro) {
+      console.error("Erro MENU WIFI", erro);
+      setMensagemErro(`Erro MENU WIFI ${erro}`);
+      setEstado("erro");
     }
   }
+
+  if (estado === "carregando") return <Carregar tipo="fundo"></Carregar>;
+  if (estado === "erro") return <Erro mensagem={mensagemErro} tipo="tipo2" />;
 
   return (
     <Fundo>
@@ -35,9 +53,12 @@ export default function Conectar() {
               2-CERTIFIQUE-SE QUE{"\n"}ESTÁ CONECTADO A REDE
             </Text>
           </View>
-          <BtnUniversal icone={"acesso"} evento={()=>{
-            abrirMenuWIFI()
-          }}></BtnUniversal>
+          <BtnUniversal
+            icone={"acesso"}
+            evento={() => {
+              abrirMenuWIFI();
+            }}
+          ></BtnUniversal>
         </View>
         <Text style={styles.paragrafo2}>
           3-SCANEIA O QRCODE{"\n"}NO DISPOSITIVO CENTRAL
@@ -59,8 +80,8 @@ export default function Conectar() {
             evento={() => {
               if (!permission.granted) {
                 requestPermission();
-              }else{
-                navegation.navigate('SCANER');
+              } else {
+                navegation.navigate("SCANER");
               }
             }}
           ></BtnUniversal>

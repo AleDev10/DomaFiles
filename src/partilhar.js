@@ -107,8 +107,8 @@ export default function Partilhar() {
     };
 
     ws.onerror = (erro) => {
-      console.error("ERRO WEBSOCKET");
-      setMensagemErro("Erro WebSocket");
+      console.error("ERRO WEBSOCKET", erro);
+      setMensagemErro(`Erro WebSocket ${erro}`);
       setEstado("erro");
     };
 
