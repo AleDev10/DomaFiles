@@ -12,7 +12,7 @@ export default function Erro({ mensagem, tipo }) {
       return (
         <FundoInicio>
           <Text style={styles.textoBV}>ERRO</Text>
-          <Text style={styles.textoInfo}>{mensagem}</Text>
+          <Text selectable={true} style={styles.textoInfo}>{mensagem}</Text>
         </FundoInicio>
       );
     case "tipo2":
@@ -20,7 +20,7 @@ export default function Erro({ mensagem, tipo }) {
         <Fundo>
           <View style={styles.caixaFormulario2}>
             <Text style={styles.textoBV}>ERRO</Text>
-            <Text style={styles.textoInfo}>{mensagem}</Text>
+            <Text selectable={true} style={styles.textoInfo}>{mensagem}</Text>
           </View>
         </Fundo>
       );
@@ -29,7 +29,7 @@ export default function Erro({ mensagem, tipo }) {
         <FundoHome>
           <View style={styles.caixaFormulario2}>
             <Text style={styles.textoBV2}>ERRO</Text>
-            <Text style={styles.textoInfo2}>{mensagem}</Text>
+            <Text selectable={true} style={styles.textoInfo2}>{mensagem}</Text>
           </View>
         </FundoHome>
       );
