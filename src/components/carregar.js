@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { CircleLoadingIndicator } from "./molecules/circle-loader";
 import FundoInicio from "./fundoInicio";
 import Fundo from "./fundo";
+import FundoHome from "./fundoHome";
 
 export default function Carregar({ tipo }) {
   switch (tipo) {
@@ -43,6 +44,24 @@ export default function Carregar({ tipo }) {
             </View>
           </GestureHandlerRootView>
         </Fundo>
+      );
+    case "fundohome":
+      return (
+        <FundoHome>
+          <GestureHandlerRootView style={styles.container}>
+            <StatusBar style="light" />
+            <View style={styles.content}>
+              <CircleLoadingIndicator
+                dotSpacing={8}
+                dotColor="#fff"
+                style={{
+                  marginTop: 60,
+                }}
+                duration={500}
+              />
+            </View>
+          </GestureHandlerRootView>
+        </FundoHome>
       );
 
     default:

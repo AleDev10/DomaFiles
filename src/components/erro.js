@@ -4,6 +4,7 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 import LetraInicial from "./letrainicial";
 import Fundo from "./fundo";
 import FundoInicio from "./fundoInicio";
+import FundoHome from "./fundoHome";
 
 export default function Erro({ mensagem, tipo }) {
   switch (tipo) {
@@ -22,6 +23,15 @@ export default function Erro({ mensagem, tipo }) {
             <Text style={styles.textoInfo}>{mensagem}</Text>
           </View>
         </Fundo>
+      );
+    case "tipo3":
+      return (
+        <FundoHome>
+          <View style={styles.caixaFormulario2}>
+            <Text style={styles.textoBV2}>ERRO</Text>
+            <Text style={styles.textoInfo2}>{mensagem}</Text>
+          </View>
+        </FundoHome>
       );
 
     default:
@@ -47,6 +57,17 @@ const styles = StyleSheet.create({
   },
   textoInfo: {
     color: "#ffff",
+    fontFamily: "Montserrat-Light",
+    textAlign: "center",
+    fontSize: RFPercentage(2),
+  },
+  textoBV2: {
+    fontFamily: "Montserrat-Black",
+    color: "#141414",
+    fontSize: RFPercentage(4),
+  },
+  textoInfo2: {
+    color: "#141414",
     fontFamily: "Montserrat-Light",
     textAlign: "center",
     fontSize: RFPercentage(2),
