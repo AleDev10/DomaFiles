@@ -7,7 +7,7 @@ export default function FundoHome({ children }) {
       <View style={styles.caixaTexto}>
         <Text style={styles.titulo}>DOMA</Text>
         <Text style={styles.frase}>
-          COMPARTILHA COM AS{"\n"}PESSOAS AO TEU REDOR
+          COMPARTILHA SEUS FILMES E SERIES COM ASPESSOAS AO TEU REDOR
         </Text>
       </View>
       <View style={styles.caixaBtns}>{children}</View>
