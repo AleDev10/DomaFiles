@@ -3,6 +3,8 @@ import { getLocalIp } from "react-native-local-network-info";
 
 import { requisição } from "./controller/iniciarServidorController";
 import { socket } from "./controller/socketController";
+import { SelecionarDiretorioCrontroller } from "./controller/SelecionarDiretorioCrontroller";
+import { listarArquivosController } from "./controller/listarArquivosController";
 
 const server = new ConfigServer();
 
@@ -23,6 +25,9 @@ export async function iniciarServidor() {
       },
       { host: "0.0.0.0" },
     );
+
+    const selecionarDiretorio = await SelecionarDiretorioCrontroller();
+    const listarArquivos = await listarArquivosController(selecionarDiretorio);
 
     return port;
   } catch (error) {

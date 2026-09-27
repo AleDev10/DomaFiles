@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState} from "react";
 
 //COMPONENTES
 import BtnUniversal from "./components/btnuniversal";
@@ -8,11 +8,11 @@ import Dispositivos from "./components/dispositivos";
 import Fundo from "./components/fundo";
 import QrCodeView from "./components/qrCodeView";
 import Erro from "./components/erro";
+import Carregar from "./components/carregar";
 
 //SERVIÇOS
 import { iniciarServidor, obterIP, pararServidor } from "./server/servidor";
 import { deletarClientes } from "./server/controller/socketController";
-import Carregar from "./components/carregar";
 
 export default function Partilhar() {
   const [qrCode, setQrCode] = useState(false);
@@ -108,7 +108,7 @@ export default function Partilhar() {
 
     ws.onerror = (erro) => {
       console.error("ERRO WEBSOCKET", erro);
-      setMensagemErro(`Erro WebSocket: ${JSON.stringify(erro,null,2)}`);
+      setMensagemErro(`Erro WebSocket ${JSON.stringify(erro,null,2)}`);
       setEstado("erro");
     };
 
