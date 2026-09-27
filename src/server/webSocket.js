@@ -33,7 +33,7 @@ export function deletarClientes() {
   clientes.clear();
 }
 
-export const socket = (ws, request) => {
+export const webSocket = (ws, request) => {
   const id = `cliente-${proximoId++}`;
 
   clientes.set(id, ws);

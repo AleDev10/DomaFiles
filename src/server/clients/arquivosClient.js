@@ -1,6 +1,6 @@
 import * as FileSystem from "expo-file-system/legacy";
 
-export async function listarArquivosController(uri) {
+export async function arquivosClient(uri) {
   try {
     const resultado =
       await FileSystem.StorageAccessFramework.readDirectoryAsync(uri);
@@ -46,6 +46,7 @@ export async function listarArquivosController(uri) {
     );
 
     console.log(conteudos);
+    return conteudos
   } catch (error) {
     console.error("Erro listar Arquivos", error);
     throw Error("Erro listar Arquivos");

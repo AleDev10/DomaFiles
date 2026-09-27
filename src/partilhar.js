@@ -12,7 +12,7 @@ import Carregar from "./components/carregar";
 
 //SERVIÇOS
 import { iniciarServidor, obterIP, pararServidor } from "./server/servidor";
-import { deletarClientes } from "./server/controller/socketController";
+import { deletarClientes } from "./server/webSocket";
 
 export default function Partilhar() {
   const [qrCode, setQrCode] = useState(false);
