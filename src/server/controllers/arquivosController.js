@@ -4,7 +4,6 @@ let pastaSelecionada = null;
 
 export function definirPasta(uri) {
   pastaSelecionada = uri;
-  console.log(pastaSelecionada);
 }
 
 export async function arquivosController(req, res) {
@@ -31,7 +30,8 @@ export async function arquivosController(req, res) {
       },
       body: JSON.stringify({
         sucesso: true,
-        mensagem: arquivo,
+        dados:arquivo,
+        mensagem: "itens do diretorio",
       }),
     };
   } catch (error) {

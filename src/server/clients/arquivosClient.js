@@ -22,12 +22,12 @@ export async function arquivosClient(uri) {
 
         if (Diretorio) {
           return {
-            uri: uri,
-            nome,
-            Diretorio: true,
-            tamanho: 0,
-            extensao: null,
-          };
+          nome,
+          Diretorio: true,
+          tamanho: 0,
+          extensao: null,
+          uri
+        };
         }
 
         const info = await FileSystem.getInfoAsync(uri);
@@ -41,11 +41,11 @@ export async function arquivosClient(uri) {
           Diretorio: info.isDirectory,
           tamanho: info.size ?? 0,
           extensao,
+          uri
         };
       }),
     );
 
-    console.log(conteudos);
     return conteudos
   } catch (error) {
     console.error("Erro listar Arquivos", error);
