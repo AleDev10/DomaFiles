@@ -6,7 +6,7 @@ export const rotas = async (req,res) => {
   try {
     
     if (req.method ==="GET" && req.path ==="/") {
-      return padraoController(req,res)
+      return padraoController(req,res);
     }
 
     if (req.method === "GET" && req.path ==="/arquivos") {
