@@ -1,9 +1,9 @@
-import { arquivosService } from "../services/arquivosService";
+import { downloadService } from "../services/downloadService";
 
-export async function arquivoControler(req, res) {
+export async function downloadController(req, res) {
   try {
-    const uri = req.path.split("/arquivos/")[1];
-
+    const uri = req.path.slice("/arquivos/".length,req.path.length - "/download".length);
+    
     if (!uri) {
       return {
         statusCode: 400,
@@ -12,13 +12,13 @@ export async function arquivoControler(req, res) {
         },
         body: JSON.stringify({
           sucesso: false,
-          mensagem: "Não foi indicada um diretirio",
+          mensagem: "Não foi indicada um arquivo",
         }),
       };
     }
 
-    const arquivos = await arquivosService(uri);
-
+    const download = await downloadService(uri);
+    
     return {
       statusCode: 200,
       headers: {
@@ -26,8 +26,8 @@ export async function arquivoControler(req, res) {
       },
       body: JSON.stringify({
         sucesso: true,
-        dados: arquivos,
-        mensagem: "Itens do diretorio",
+        dados: "",
+        mensagem: "Download feito",
       }),
     };
   } catch (error) {
@@ -38,7 +38,7 @@ export async function arquivoControler(req, res) {
       },
       body: JSON.stringify({
         sucesso: false,
-        mensagem: "Erro nas respostas dos arquivos",
+        mensagem: "Erro na resposta do download"
       }),
     };
   }
