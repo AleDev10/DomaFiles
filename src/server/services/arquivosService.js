@@ -1,4 +1,11 @@
-import { arquivosClient, lerArquivo, lerDiretorio } from "../clients/arquivosClient";
+import {
+  arquivosClient,
+  lerArquivo,
+  lerDiretorio,
+} from "../clients/arquivosClient";
+import { registrarArquivo } from "../configs/arquivoConfig";
+
+let itemID = 1;
 
 export async function arquivosService(uri) {
   try {
@@ -20,13 +27,14 @@ export async function arquivosService(uri) {
         }
 
         if (Diretorio) {
-          return {
-          nome,
-          Diretorio: true,
-          tamanho: 0,
-          extensao: null,
-          uri
-        };
+          return registrarArquivo({
+            id: `item_${itemID++}`,
+            nome,
+            Diretorio: true,
+            tamanho: 0,
+            extensao: null,
+            uri,
+          });
         }
 
         const info = await lerArquivo(uri);
@@ -35,16 +43,17 @@ export async function arquivosService(uri) {
             ? nome.split(".").pop().toLowerCase()
             : null;
 
-        return {
+        return registrarArquivo({
+          id: `item_${itemID++}`,
           nome,
           Diretorio: info.isDirectory,
           tamanho: info.size ?? 0,
           extensao,
-          uri
-        };
+          uri,
+        });
       }),
     );
-    
+
     return arquivos;
   } catch (error) {
     console.log("Erro ao tratar arquivos");

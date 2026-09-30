@@ -2,9 +2,12 @@ import { downloadService } from "../services/downloadService";
 
 export async function downloadController(req, res) {
   try {
-    const uri = req.path.slice("/arquivos/".length,req.path.length - "/download".length);
+    const id = req.path.slice(
+      "/arquivos/".length,
+      req.path.length - "/download".length,
+    );
     
-    if (!uri) {
+    if (!id) {
       return {
         statusCode: 400,
         headers: {
@@ -17,18 +20,30 @@ export async function downloadController(req, res) {
       };
     }
 
-    const download = await downloadService(uri);
-    
+    const download = await downloadService(id);
+
+    if (!download) {
+      return {
+        statusCode: 404,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sucesso: false,
+          mensagem: "Arquivo não encontrado",
+        }),
+      };
+    }
+
     return {
       statusCode: 200,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": download.contentType,
+        "Content-Length": String(download.tamanho),
+        "Content-Disposition": `attachment; filename="${download.nome}"`,
+        "Transfer-Encoding": "chunked"
       },
-      body: JSON.stringify({
-        sucesso: true,
-        dados: "",
-        mensagem: "Download feito",
-      }),
+      body: download.conteudo,
     };
   } catch (error) {
     return {
@@ -38,7 +53,7 @@ export async function downloadController(req, res) {
       },
       body: JSON.stringify({
         sucesso: false,
-        mensagem: "Erro na resposta do download"
+        mensagem: "Erro na resposta do download",
       }),
     };
   }
