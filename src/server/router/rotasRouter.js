@@ -11,7 +11,7 @@ export const rotas = async (req,res) => {
       return padraoController(req,res);
     }
 
-    if (req.method === "GET" && req.path ==="/arquivos") {
+    /* if (req.method === "GET" && req.path ==="/arquivos") {
       return arquivosController(req,res);
     }
 
@@ -21,7 +21,7 @@ export const rotas = async (req,res) => {
     
     if (req.method === "GET" && req.path.startsWith("/arquivos/")) {
       return arquivoControler(req,res);
-    }
+    } */
 
     return erroController(req,res);
     
