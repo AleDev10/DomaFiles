@@ -1,11 +1,18 @@
-import * as FileSystem from "expo-file-system/legacy";
+import * as DocumentPicker from 'expo-document-picker';
 
 export async function diretorioClient() {
   try {
-    const resultado = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-    
-    return resultado;
+    const arquivos = await DocumentPicker.getDocumentAsync({
+      copyToCacheDirectory: true,
+      multiple: true,
+    });
+
+    if (arquivos.canceled) {
+        return null;
+    }
+
+    return arquivos.assets;
   } catch (error) {
-    console.log("Erro ao escolher diretorio");
+    console.error("Erro ao escolher arquivos", error);
   }
 }

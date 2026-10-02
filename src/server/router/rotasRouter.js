@@ -1,6 +1,7 @@
-import { arquivoControler } from "../controllers/arquivoControler";
-import { arquivosController } from "../controllers/arquivosController";
-import { downloadController } from "../controllers/downloadController";
+import { arquivoControler } from "../trash/arquivoControler";
+import { arquivosController } from "../trash/arquivosController";
+import { diretorioController } from "../controllers/diretorioController";
+import { downloadController } from "../trash/downloadController";
 import { erroController } from "../controllers/erroController";
 import { padraoController } from "../controllers/padraoController";
 
@@ -9,6 +10,10 @@ export const rotas = async (req,res) => {
     
     if (req.method ==="GET" && req.path ==="/") {
       return padraoController(req,res);
+    }
+
+    if (req.method ==="POST" && req.path ==="/diretorio") {
+      return diretorioController(req,res);
     }
 
     /* if (req.method === "GET" && req.path ==="/arquivos") {

@@ -3,17 +3,10 @@ import { getLocalIp } from "react-native-local-network-info";
 
 import { webSocket } from "./webSocket";
 import { rotas } from "./router/rotasRouter";
-import { EscolherArquivosConfig } from "./configs/EscolherArquivosConfig";
 
 const server = new ConfigServer();
 
 export async function iniciarServidor() {
-  try {
-    await EscolherArquivosConfig();
-  } catch (error) {
-    console.error("Erro ao escolher arquivos", error);
-  }
-
   try {
     server.onWebSocket("/ws", webSocket);
 
