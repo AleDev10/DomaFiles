@@ -1,20 +1,22 @@
 import { diretorioClient } from "../clients/diretorioClient";
-import { definirPasta } from "../controllers/arquivosController";
+import { registrarDiretorio } from "../configs/storegeConfig";
 
-export async function diretorioService() {
+let itemID = 1;
+
+export async function diretorioService(nome) {
   try {
-    const resultado = await diretorioClient();
+    const arquivos = await diretorioClient();
 
-    if (!resultado.granted) {
+    if (!arquivos) {
       return null;
     }
 
-    const pastaURI = resultado.directoryUri;
-
-    definirPasta(pastaURI);
-    
-    return pastaURI;
+    return registrarDiretorio({
+      id: `diretorio-${itemID++}`,
+      nome,
+      arquivos,
+    });
   } catch (error) {
-    console.log("Erro ao tratar URI");
+    console.error("Erro ao tratar arquivos", error);
   }
 }

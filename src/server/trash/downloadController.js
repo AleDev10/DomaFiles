@@ -1,4 +1,4 @@
-import { downloadService } from "../services/downloadService";
+import { downloadService } from "./downloadService";
 
 export async function downloadController(req, res) {
   try {

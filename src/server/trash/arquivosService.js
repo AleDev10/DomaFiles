@@ -2,8 +2,8 @@ import {
   arquivosClient,
   lerArquivo,
   lerDiretorio,
-} from "../clients/arquivosClient";
-import { registrarArquivo } from "../configs/arquivoConfig";
+} from "./arquivosClient";
+import { registrarArquivo } from "../configs/storegeConfig";
 
 let itemID = 1;
 

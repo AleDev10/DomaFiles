@@ -1,5 +1,5 @@
-import { downloadClient } from "../clients/downloadClient";
-import { obterArquivoPorId } from "../configs/arquivoConfig";
+import { downloadClient } from "./downloadClient";
+import { obterArquivoPorId } from "../configs/storegeConfig";
 
 export async function downloadService(id) {
   try {

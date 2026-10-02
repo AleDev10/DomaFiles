@@ -1,10 +1,14 @@
-import { arquivosService } from "../services/arquivosService";
+import { arquivosService } from "./arquivosService";
 
-export async function arquivoControler(req, res) {
+let pastaSelecionada = null;
+
+export function definirPasta(uri) {
+  pastaSelecionada = uri;
+}
+
+export async function arquivosController(req, res) {
   try {
-    const uri = req.path.split("/arquivos/")[1];
-
-    if (!uri) {
+    if (!pastaSelecionada) {
       return {
         statusCode: 400,
         headers: {
@@ -17,7 +21,7 @@ export async function arquivoControler(req, res) {
       };
     }
 
-    const arquivos = await arquivosService(uri);
+    const arquivo = await arquivosService(pastaSelecionada);
 
     return {
       statusCode: 200,
@@ -26,8 +30,8 @@ export async function arquivoControler(req, res) {
       },
       body: JSON.stringify({
         sucesso: true,
-        dados: arquivos,
-        mensagem: "Itens do diretorio",
+        dados:arquivo,
+        mensagem: "itens do diretorio",
       }),
     };
   } catch (error) {
