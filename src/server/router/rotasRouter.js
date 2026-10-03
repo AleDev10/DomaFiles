@@ -4,6 +4,7 @@ import { diretorioController } from "../controllers/diretorioController";
 import { downloadController } from "../trash/downloadController";
 import { erroController } from "../controllers/erroController";
 import { padraoController } from "../controllers/padraoController";
+import { diretoriosController } from "../controllers/diretoriosController";
 
 export const rotas = async (req,res) => {
   try {
@@ -14,6 +15,10 @@ export const rotas = async (req,res) => {
 
     if (req.method ==="POST" && req.path ==="/diretorio") {
       return diretorioController(req,res);
+    }
+
+    if (req.method ==="GET" && req.path ==="/diretorios") {
+      return diretoriosController(req,res);
     }
 
     /* if (req.method === "GET" && req.path ==="/arquivos") {
