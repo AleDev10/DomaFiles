@@ -6,7 +6,7 @@ export function erroController(req, res) {
     },
     body: JSON.stringify({
       sucesso: false,
-      mensagem: "Não encontrado",
+      mensagem: "Rota Não encontrada",
     }),
   };
 }

@@ -1,10 +1,8 @@
-import { arquivoControler } from "../trash/arquivoControler";
-import { arquivosController } from "../trash/arquivosController";
 import { diretorioController } from "../controllers/diretorioController";
-import { downloadController } from "../trash/downloadController";
 import { erroController } from "../controllers/erroController";
 import { padraoController } from "../controllers/padraoController";
 import { diretoriosController } from "../controllers/diretoriosController";
+import { diretorioIDController } from "../controllers/diretorioIDController";
 
 export const rotas = async (req,res) => {
   try {
@@ -21,17 +19,17 @@ export const rotas = async (req,res) => {
       return diretoriosController(req,res);
     }
 
+    if (req.method === "GET" && req.path.startsWith("/diretorio/")) {
+      return diretorioIDController(req,res);
+    } 
+
     /* if (req.method === "GET" && req.path ==="/arquivos") {
       return arquivosController(req,res);
     }
 
     if (req.method === "GET" && req.path.startsWith("/arquivos/") && req.path.endsWith("/download")) {
       return downloadController(req,res);
-    }
-    
-    if (req.method === "GET" && req.path.startsWith("/arquivos/")) {
-      return arquivoControler(req,res);
-    } */
+    }*/
 
     return erroController(req,res);
     
