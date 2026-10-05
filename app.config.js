@@ -71,5 +71,13 @@ export default ({ config }) => ({
       },
     ],
     ["expo-sqlite"],
+    [
+      "expo-build-properties",
+      {
+        android: {
+          usesCleartextTraffic: true,
+        },
+      },
+    ],
   ],
 });
