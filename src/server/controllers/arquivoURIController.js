@@ -1,5 +1,7 @@
 import { arquivoURIService } from "../services/arquivoURIService";
 
+let nomeArquivo=1;
+
 export async function arquivoURIController(req, res) {
   try {
     const uri = req.path.slice(
@@ -38,15 +40,11 @@ export async function arquivoURIController(req, res) {
     return {
       statusCode: 200,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "video/mp4",
+        "Content-Disposition": `attachment; filename=DF-${nomeArquivo++}.mp4`,
+        "Content-Length": String(arquivo.tamanho),
       },
-      body: JSON.stringify({
-        sucesso: true,
-        dados: {
-          arquivo,
-        },
-        mensagem: "Arquivo encontrado com sucesso",
-      }),
+      body: arquivo.bytes.buffer,
     };
   } catch (error) {
     console.error("Erro ao procurar arquivo", error);

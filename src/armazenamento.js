@@ -1,11 +1,16 @@
 import { StyleSheet, View, Text } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { useState } from "react";
 
 //componentes
 import Fundo from "./components/fundo";
 import BtnUniversal from "./components/btnuniversal";
 
-export default function Armazenamento() {
+export default function Armazenamento({route}) {
+  const {url} = route.params;
+
+  const [ip,setIp] = useState(url);
+
   return (
     <Fundo>
       <View style={styles.caixaPrincipal}>
@@ -13,7 +18,7 @@ export default function Armazenamento() {
         <Text style={styles.texto}>ACESSO LIMITADO PARA LEITURA</Text>
         <View style={styles.caixaArquivos}>
           <BtnUniversal icone={"arquivo"}>
-            <Text>Armazena</Text>
+            <Text>{ip}</Text>
           </BtnUniversal>
           <BtnUniversal icone={"arquivo"}>
             <Text>Armazena</Text>

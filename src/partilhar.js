@@ -95,7 +95,6 @@ export default function Partilhar() {
 
     ws.onopen = () => {
       console.log("WebSocket conectado");
-      setClientes((atuais) => [...atuais, "Servidor"]);
     };
 
     ws.onclose = (evento) => {

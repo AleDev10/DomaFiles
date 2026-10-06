@@ -1,9 +1,14 @@
+import { arquivoURIClient } from "../clients/arquivoURIClient";
 
 export async function arquivoURIService(uri) {
   try {
-    console.log(uri);
+    const arquivoBytes = await arquivoURIClient(uri);
+    
+    if (!arquivoBytes) {
+      return null;
+    }
 
-    return null;
+    return arquivoBytes;
   } catch (error) {
     console.error("Erro ao tratar arquivo", error);
   }

@@ -20,7 +20,7 @@ export default function Scaner() {
             setTimeout(()=>{
                 console.log("Scan: "+data);
                 qrcodeFechado.current=false;
-                navegation.goBack();
+                navegation.navigate("ARMAZENAMENTO",{url:data});
             },500);
         }
       }}>
