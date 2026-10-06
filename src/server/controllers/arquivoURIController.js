@@ -1,10 +1,13 @@
-import { diretorioIDService } from "../services/diretorioIDService";
+import { arquivoURIService } from "../services/arquivoURIService";
 
-export async function diretorioIDController(req, res) {
+export async function arquivoURIController(req, res) {
   try {
-    const id = req.path.split("/:")[1];
+    const uri = req.path.slice(
+      "/arquivo/:".length,
+      req.path.length - "/download".length,
+    );
 
-    if (!id) {
+    if (!uri) {
       return {
         statusCode: 400,
         headers: {
@@ -12,14 +15,14 @@ export async function diretorioIDController(req, res) {
         },
         body: JSON.stringify({
           sucesso: false,
-          mensagem: "Não foi indicada um diretorio",
+          mensagem: "Não foi indicado um arquivo",
         }),
       };
     }
 
-    const diretorio = await diretorioIDService(id);
+    const arquivo = await arquivoURIService(uri);
 
-    if (!diretorio) {
+    if (!arquivo) {
       return {
         statusCode: 404,
         headers: {
@@ -27,7 +30,7 @@ export async function diretorioIDController(req, res) {
         },
         body: JSON.stringify({
           sucesso: false,
-          mensagem: "Diretorio não encontrado",
+          mensagem: "Arquivo não encontrado",
         }),
       };
     }
@@ -40,13 +43,13 @@ export async function diretorioIDController(req, res) {
       body: JSON.stringify({
         sucesso: true,
         dados: {
-          diretorio,
+          arquivo,
         },
-        mensagem: "Diretorio encontrado com sucesso",
+        mensagem: "Arquivo encontrado com sucesso",
       }),
     };
   } catch (error) {
-    console.error("Erro ao procurar diretorio", error);
+    console.error("Erro ao procurar arquivo", error);
     return {
       statusCode: 500,
       headers: {
@@ -54,7 +57,7 @@ export async function diretorioIDController(req, res) {
       },
       body: JSON.stringify({
         sucesso: false,
-        mensagem: "Erro ao procurar diretorio",
+        mensagem: "Erro ao procurar arquivo",
       }),
     };
   }

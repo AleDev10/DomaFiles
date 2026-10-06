@@ -3,6 +3,7 @@ import { erroController } from "../controllers/erroController";
 import { padraoController } from "../controllers/padraoController";
 import { diretoriosController } from "../controllers/diretoriosController";
 import { diretorioIDController } from "../controllers/diretorioIDController";
+import { arquivoURIController } from "../controllers/arquivoURIController";
 
 export const rotas = async (req,res) => {
   try {
@@ -23,13 +24,9 @@ export const rotas = async (req,res) => {
       return diretorioIDController(req,res);
     } 
 
-    /* if (req.method === "GET" && req.path ==="/arquivos") {
-      return arquivosController(req,res);
+    if (req.method === "GET" && req.path.startsWith("/arquivo/") && req.path.endsWith("/download")) {
+      return arquivoURIController(req,res);
     }
-
-    if (req.method === "GET" && req.path.startsWith("/arquivos/") && req.path.endsWith("/download")) {
-      return downloadController(req,res);
-    }*/
 
     return erroController(req,res);
     
