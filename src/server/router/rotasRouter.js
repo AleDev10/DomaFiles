@@ -4,6 +4,7 @@ import { padraoController } from "../controllers/padraoController";
 import { diretoriosController } from "../controllers/diretoriosController";
 import { diretorioIDController } from "../controllers/diretorioIDController";
 import { arquivoURIController } from "../controllers/arquivoURIController";
+import { streamController } from "../controllers/streamController";
 
 export const rotas = async (req,res) => {
   try {
@@ -27,6 +28,10 @@ export const rotas = async (req,res) => {
     if (req.method === "GET" && req.path.startsWith("/arquivo/") && req.path.endsWith("/download")) {
       return arquivoURIController(req,res);
     }
+
+    if (req.method === "GET" && req.path.startsWith("/stream")) {
+      return streamController(req,res);
+    } 
 
     return erroController(req,res);
     
