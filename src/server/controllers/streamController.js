@@ -8,7 +8,7 @@ export async function streamController(req, res) {
     const nome = url.searchParams.get("nome");
     const size = Number(url.searchParams.get("size"));
     const mimeType = url.searchParams.get("mimeType");
-    const range = req.headers.range || "bytes=0-1048575";
+    const range = req.headers.range;
 
     console.log(range);
 
@@ -60,12 +60,7 @@ export async function streamController(req, res) {
 
     const fim = fimInformado ?? tamanhoTotal - 1;
 
-    const resultado = await streamService(
-      uri,
-      inicio,
-      fim,
-      tamanhoTotal,
-    );
+    const resultado = await streamService(uri, inicio, fim, tamanhoTotal);
 
     if (!resultado) {
       return {
@@ -80,13 +75,19 @@ export async function streamController(req, res) {
       };
     }
 
+    const tamanhoTotal2 = resultado.tamanhoTotal;
+    const inicio2 = resultado.inicio;
+    const fim2 = resultado.fim;
+    const tamanhoResposta2 = fim2 - inicio2 + 1;
+
     return {
       statusCode: 206,
       headers: {
         "Content-Type": mimeType || "application/octet-stream",
-        "Content-Length": resultado.tamanho,
-        "Content-Range": `bytes ${resultado.inicio}-${resultado.fim}/${resultado.tamanhoTotal}`,
+        "Content-Length": String(tamanhoResposta2),
+        "Content-Range": `bytes ${inicio2}-${fim2}/${tamanhoTotal2}`,
         "Accept-Ranges": "bytes",
+        "Cache-Control": "no-cache",
       },
       body: resultado.conteudo,
     };
