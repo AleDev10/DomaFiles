@@ -1,9 +1,9 @@
 import { File } from "expo-file-system";
 
 /**
- * Lê uma parte específica de um arquivo SAF.
+ * Lê uma parte específica de um arquivo.
  *
- * @param {string} uri - URI SAF do arquivo
+ * @param {string} uri - URI file:// do arquivo
  * @param {number} inicio - Byte inicial
  * @param {number} fim - Byte final
  *

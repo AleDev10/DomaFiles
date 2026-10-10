@@ -1,5 +1,32 @@
 import { streamService } from "../services/streamService";
 
+/**
+ * @typedef {Object} HttpResponse
+ * @property {number} statusCode - Código de status HTTP.
+ * @property {Object.<string, string>} headers - Cabeçalhos da resposta.
+ * @property {string|Buffer|Uint8Array|ArrayBuffer} body - Corpo da resposta.
+ */
+
+/**
+ * Controla a transmissão de um arquivo em blocos usando requisições HTTP
+ * com `Range`.
+ *
+ * A função espera que os seguintes query params estejam presentes em
+ * `req.path`:
+ * - `uri`: URI do arquivo.
+ * - `nome`: Nome do arquivo.
+ * - `size`: Tamanho total do arquivo em bytes.
+ * - `mimeType`: Tipo MIME do arquivo.
+ *
+ * @async
+ * @function streamController
+ *
+ * @param {Object} req - Objeto da requisição.
+ * @param {Object} res - Objeto da resposta.
+ *
+ * @returns {Promise<HttpResponse>} Promise<HttpResponse>
+ */
+
 export async function streamController(req, res) {
   try {
     const path = req.path;
@@ -9,8 +36,6 @@ export async function streamController(req, res) {
     const size = Number(url.searchParams.get("size"));
     const mimeType = url.searchParams.get("mimeType");
     const range = req.headers.range;
-
-    console.log(range);
 
     if (!uri || !nome || !size || !mimeType) {
       return {
@@ -45,6 +70,7 @@ export async function streamController(req, res) {
         statusCode: 416,
         headers: {
           "Content-Type": "application/json",
+          "Content-Range": `bytes */${size}`,
         },
         body: JSON.stringify({
           sucesso: false,
@@ -57,8 +83,37 @@ export async function streamController(req, res) {
     const fimInformado = match[2] ? Number(match[2]) : null;
 
     const tamanhoTotal = size;
+    const TAMANHO_BLOCO = 1024 * 1024;
 
-    const fim = fimInformado ?? tamanhoTotal - 1;
+    if (
+      !Number.isSafeInteger(tamanhoTotal) ||
+      tamanhoTotal <= 0 ||
+      !Number.isSafeInteger(inicio) ||
+      inicio < 0 ||
+      inicio >= tamanhoTotal ||
+      (fimInformado !== null &&
+        (!Number.isSafeInteger(fimInformado) || fimInformado < inicio))
+    ) {
+      return {
+        statusCode: 416,
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Range": `bytes */${tamanhoTotal}`,
+        },
+        body: JSON.stringify({
+          sucesso: false,
+          mensagem: "Range fora dos limites do arquivo",
+        }),
+      };
+    }
+
+    const fimSolicitado = fimInformado ?? tamanhoTotal - 1;
+
+    const fim = Math.min(
+      fimSolicitado,
+      inicio + TAMANHO_BLOCO - 1,
+      tamanhoTotal - 1,
+    );
 
     const resultado = await streamService(uri, inicio, fim, tamanhoTotal);
 
@@ -70,22 +125,17 @@ export async function streamController(req, res) {
         },
         body: JSON.stringify({
           sucesso: false,
-          mensagem: "Arquivo não encontrado",
+          mensagem: "Não foi possível ler o arquivo",
         }),
       };
     }
-
-    const tamanhoTotal2 = resultado.tamanhoTotal;
-    const inicio2 = resultado.inicio;
-    const fim2 = resultado.fim;
-    const tamanhoResposta2 = fim2 - inicio2 + 1;
 
     return {
       statusCode: 206,
       headers: {
         "Content-Type": mimeType || "application/octet-stream",
-        "Content-Length": String(tamanhoResposta2),
-        "Content-Range": `bytes ${inicio2}-${fim2}/${tamanhoTotal2}`,
+        "Content-Length": String(resultado.conteudo.byteLength),
+        "Content-Range": `bytes ${resultado.inicio}-${resultado.fim}/${resultado.tamanhoTotal}`,
         "Accept-Ranges": "bytes",
         "Cache-Control": "no-cache",
       },
