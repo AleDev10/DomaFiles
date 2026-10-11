@@ -1,17 +1,14 @@
-import { File } from "expo-file-system";
+import { downloadClient } from "../clients/downloadClient";
 
-export async function arquivoURIClient(uri) {
-  const arquivo = new File(uri);
-  const handle = arquivo.open();
-
+export async function downloadService(uri, tamanho) {
   try {
-    const tamanho = handle.size ?? arquivo.size;
+    const arquivoFile = await downloadClient(uri);
 
-    if (tamanho === null || tamanho === undefined) {
-      console.error("Tamanho não definido");
+    if (!arquivoFile) {
       return null;
     }
 
+    const handle = arquivoFile.open();
     const CHUNK_SIZE = 1024 * 1024;
     const chunks = [];
 
@@ -37,9 +34,8 @@ export async function arquivoURIClient(uri) {
 
     return {
       bytes: resultado,
-      tamanho,
     };
-  } finally {
-    handle.close();
+  } catch (error) {
+    console.error("Erro ao tratar arquivo", error);
   }
 }

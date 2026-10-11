@@ -1,15 +1,14 @@
-import { arquivoURIService } from "../services/arquivoURIService";
+import { downloadService } from "../services/downloadService";
 
-let nomeArquivo=1;
-
-export async function arquivoURIController(req, res) {
+export async function downloadController(req, res) {
   try {
-    const uri = req.path.slice(
-      "/arquivo/:".length,
-      req.path.length - "/download".length,
-    );
+    const path = req.path;
+    const url = new URL(path, "http://localhost");
+    const uri = url.searchParams.get("uri");
+    const nome = url.searchParams.get("nome");
+    const size = Number(url.searchParams.get("size"));
 
-    if (!uri) {
+    if (!uri || !nome || !size) {
       return {
         statusCode: 400,
         headers: {
@@ -17,12 +16,12 @@ export async function arquivoURIController(req, res) {
         },
         body: JSON.stringify({
           sucesso: false,
-          mensagem: "Não foi indicado um arquivo",
+          mensagem: "Informaçoes do arquivo em falta",
         }),
       };
     }
 
-    const arquivo = await arquivoURIService(uri);
+    const arquivo = await downloadService(uri,size);
 
     if (!arquivo) {
       return {
@@ -41,8 +40,8 @@ export async function arquivoURIController(req, res) {
       statusCode: 200,
       headers: {
         "Content-Type": "video/mp4",
-        "Content-Disposition": `attachment; filename=DF-${nomeArquivo++}.mp4`,
-        "Content-Length": String(arquivo.tamanho),
+        "Content-Disposition": `attachment; filename=${nome}`,
+        "Content-Length": String(size),
       },
       body: arquivo.bytes.buffer,
     };

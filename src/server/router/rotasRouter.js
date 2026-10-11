@@ -3,7 +3,7 @@ import { erroController } from "../controllers/erroController";
 import { padraoController } from "../controllers/padraoController";
 import { diretoriosController } from "../controllers/diretoriosController";
 import { diretorioIDController } from "../controllers/diretorioIDController";
-import { arquivoURIController } from "../controllers/arquivoURIController";
+import { downloadController } from "../controllers/downloadController";
 import { streamController } from "../controllers/streamController";
 
 export const rotas = async (req,res) => {
@@ -25,8 +25,8 @@ export const rotas = async (req,res) => {
       return diretorioIDController(req,res);
     } 
 
-    if (req.method === "GET" && req.path.startsWith("/arquivo/") && req.path.endsWith("/download")) {
-      return arquivoURIController(req,res);
+    if (req.method === "GET" && req.path.startsWith("/download")) {
+      return downloadController(req,res);
     }
 
     if (req.method === "GET" && req.path.startsWith("/stream")) {
