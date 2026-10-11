@@ -3,6 +3,7 @@ import { getLocalIp } from "react-native-local-network-info";
 
 import { webSocket } from "./webSocket";
 import { rotas } from "./router/rotasRouter";
+import { casheConfig } from "./configs/casheConfig";
 
 const server = new ConfigServer();
 
@@ -14,6 +15,7 @@ export async function iniciarServidor() {
       3000,
       rotas,
       {
+        request_timeout_secs: 1800,
         mounts: [
           {
             type: "websocket",
@@ -32,6 +34,7 @@ export async function iniciarServidor() {
 
 export async function pararServidor() {
   try {
+    casheConfig();
     await server.stop();
     console.log("Servidor parado");
   } catch (error) {
