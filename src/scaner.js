@@ -14,21 +14,27 @@ export default function Scaner() {
   return (
     <View style={styles.caixaPrincipal}>
       <Text style={styles.titulo}>SCANEAR QRCODE</Text>
-      <CameraView style={styles.caixaQrcode} facing="back" onBarcodeScanned={({data})=>{
-        if (data && !qrcodeFechado.current) {
-            qrcodeFechado.current=true;
-            setTimeout(()=>{
-                console.log("Scan: "+data);
-                qrcodeFechado.current=false;
-                navegation.navigate("ARMAZENAMENTO",{url:data});
-            },500);
-        }
-      }}>
+      <CameraView
+        style={styles.caixaQrcode}
+        facing="back"
+        onBarcodeScanned={({ data }) => {
+          if (data && !qrcodeFechado.current) {
+            qrcodeFechado.current = true;
+            navegation.navigate("ARMAZENAMENTO", { url: data });
+            qrcodeFechado.current = false;
+          } else {
+            navegation.goBack();
+          }
+        }}
+      >
         <Text style={styles.caixaTexto}>.</Text>
       </CameraView>
-      <BtnUniversal icone={"cancelar"} evento={()=>{
-        navegation.goBack();
-      }}></BtnUniversal>
+      <BtnUniversal
+        icone={"cancelar"}
+        evento={() => {
+          navegation.goBack();
+        }}
+      ></BtnUniversal>
     </View>
   );
 }
