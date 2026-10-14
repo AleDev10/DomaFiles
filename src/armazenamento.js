@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Alert } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { useState, useEffect } from "react";
 
@@ -12,7 +12,29 @@ export default function Armazenamento({ route }) {
 
   const [estado, setEstado] = useState("pronto");
   const [mensagemErro, setMensagemErro] = useState("");
-  const [clientes, setClientes] = useState([]);
+  const [diretorios, setdiretorios] = useState([]);
+  const [arquivos, setArquivos] = useState([]);
+  const [estadonavegacao, setEstadonavegacao] = useState(false);
+
+  async function buscarDiretorio() {
+    try {
+      const diretorios = await fetch(`${url}/diretorios`, {
+        method: "GET",
+      });
+
+      if (!diretorios.ok) {
+        console.error("Falha ao buscar diretorios");
+      }
+
+      const diretoriosDados = await diretorios.json();
+      setdiretorios(diretoriosDados.dados.diretorios);
+    } catch (error) {
+      console.error("Erro ao buscar diretorios");
+      setMensagemErro("Erro ao buscar diretorios");
+      setEstado("erro");
+      return;
+    }
+  }
 
   function conetarWebsocket() {
     const urlWs = `ws://${url.split("http://")[1]}/ws`;
@@ -29,35 +51,84 @@ export default function Armazenamento({ route }) {
 
     ws.onopen = () => {
       console.log("WebSocket conectado");
+      buscarDiretorio();
     };
   }
 
-  async function buscarDiretorio() {
-    try {
-      const repositorios = await fetch(`${url}/diretorios`, {
-        method: "GET",
-      });
-
-      if (!repositorios.ok) {
-        console.error("Falha ao buscar diretorios");
-      }
-
-      const repositoriosDados = await repositorios.json();
-      setClientes(repositoriosDados.dados.diretorios);
-    } catch (error) {
-      console.error("Erro ao buscar diretorios");
-      setMensagemErro("Erro ao buscar diretorios");
-      setEstado("erro");
-      return;
+  function abrirDiretorio(id, sentido) {
+    if (!id && sentido === "voltar") {
+      setEstadonavegacao(false);
+    } else if (sentido === "avançar") {
+      setEstadonavegacao(true);
+      setArquivos([
+        {
+          uri: "diretorio-1",
+          nome: "lego ninjago E1T1",
+        },
+        {
+          uri: "diretorio-1",
+          nome: "lego ninjago E2T1",
+        },
+        {
+          uri: "diretorio-1",
+          nome: "lego ninjago E3T1",
+        },
+        {
+          uri: "diretorio-1",
+          nome: "lego ninjago E4T1",
+        },
+      ]);
     }
   }
 
   useEffect(() => {
     conetarWebsocket();
-    buscarDiretorio();
+    setdiretorios([
+      {
+        id: "diretorio-1",
+        nome: "novo_pasta",
+      },
+      {
+        id: "diretorio-2",
+        nome: "nada",
+      },
+      {
+        id: "diretorio-3",
+        nome: "aleatorios",
+      },
+    ]);
   }, []);
 
   if (estado === "erro") return <Erro mensagem={mensagemErro} tipo="tipo2" />;
+
+  if (estadonavegacao) {
+    return (
+      <Fundo>
+        <View style={styles.caixaPrincipal}>
+          <Text style={styles.titulo}>ARMAZENAMENTO</Text>
+          <Text style={styles.texto}>ACESSO LIMITADO PARA LEITURA</Text>
+          <View style={styles.caixaArquivos}>
+            <BtnUniversal
+              icone={"diretorio"}
+              key={"voltar"}
+              evento={() => {
+                abrirDiretorio(null, "voltar");
+              }}
+            >
+              <Text>voltar...</Text>
+            </BtnUniversal>
+            {arquivos.map((elemento, index) => (
+              <BtnUniversal icone={"arquivo"} key={index} evento={()=>{
+                Alert.alert("DOWNLOAD OU STREAM","Escolha uma das opções.");
+              }}>
+                <Text>{elemento.nome}</Text>
+              </BtnUniversal>
+            ))}
+          </View>
+        </View>
+      </Fundo>
+    );
+  }
 
   return (
     <Fundo>
@@ -65,8 +136,14 @@ export default function Armazenamento({ route }) {
         <Text style={styles.titulo}>ARMAZENAMENTO</Text>
         <Text style={styles.texto}>ACESSO LIMITADO PARA LEITURA</Text>
         <View style={styles.caixaArquivos}>
-          {clientes.map((elemento,index) => (
-            <BtnUniversal icone={"arquivo"} key={index}>
+          {diretorios.map((elemento, index) => (
+            <BtnUniversal
+              icone={"diretorio"}
+              key={index}
+              evento={() => {
+                abrirDiretorio(elemento.id, "avançar");
+              }}
+            >
               <Text>{elemento.nome}</Text>
             </BtnUniversal>
           ))}

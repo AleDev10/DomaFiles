@@ -1,4 +1,4 @@
-import { TouchableOpacity, Image, StyleSheet, Text } from "react-native";
+import { TouchableOpacity, Image, StyleSheet, Text, Alert } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
 export default function BtnUniversal({ icone, evento,children }) {
@@ -110,7 +110,7 @@ export default function BtnUniversal({ icone, evento,children }) {
         <TouchableOpacity onPress={evento} style={styles.btnArquivo}>
           <Image
             style={styles.imgArquivo}
-            source={require("../assets/icons/folder.png")}
+            source={require("../assets/icons/qrcode.png")}
           ></Image>
           {children}
         </TouchableOpacity>
@@ -123,6 +123,17 @@ export default function BtnUniversal({ icone, evento,children }) {
             source={require("../assets/icons/lista.png")}
             style={styles.imgBranco}
           ></Image>
+        </TouchableOpacity>
+      );
+      break;
+      case "diretorio":
+      return (
+        <TouchableOpacity onPress={evento} style={styles.btnArquivo}>
+          <Image
+            style={styles.imgArquivo}
+            source={require("../assets/icons/folder.png")}
+          ></Image>
+          {children}
         </TouchableOpacity>
       );
       break;
