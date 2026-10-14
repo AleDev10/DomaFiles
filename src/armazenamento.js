@@ -55,7 +55,6 @@ export default function Armazenamento({ route }) {
       }
 
       const diretorioDados = await diretorio.json();
-      console.log(diretorioDados.dados.diretorio.arquivos);
       setArquivos(diretorioDados.dados.diretorio.arquivos);
 
       abrirDiretorio(id, "avançar");
