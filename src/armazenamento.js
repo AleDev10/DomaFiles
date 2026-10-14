@@ -16,7 +16,7 @@ export default function Armazenamento({ route }) {
   const [arquivos, setArquivos] = useState([]);
   const [estadonavegacao, setEstadonavegacao] = useState(false);
 
-  async function buscarDiretorio() {
+  async function buscarDiretorios() {
     try {
       const diretorios = await fetch(`${url}/diretorios`, {
         method: "GET",
@@ -36,6 +36,39 @@ export default function Armazenamento({ route }) {
     }
   }
 
+  function abrirDiretorio(id, sentido) {
+    if (!id && sentido === "voltar") {
+      setEstadonavegacao(false);
+    } else if (sentido === "avançar") {
+      setEstadonavegacao(true);
+    }
+  }
+
+  async function buscarDiretorio(id) {
+    try {
+      const diretorio = await fetch(`${url}/diretorio/:${id}`, {
+        method: "GET",
+      });
+
+      if (!diretorio.ok) {
+        console.error("Falha ao buscar diretorio");
+      }
+
+      const diretorioDados = await diretorio.json();
+      console.log(diretorioDados.dados.diretorio.arquivos);
+      setArquivos(diretorioDados.dados.diretorio.arquivos);
+
+      abrirDiretorio(id, "avançar");
+      
+    } catch (error) {
+      console.error("Erro ao buscar arquivo");
+      setMensagemErro("Erro ao buscar arquivo");
+      setEstado("erro");
+      return;
+    }
+    
+  }
+
   function conetarWebsocket() {
     const urlWs = `ws://${url.split("http://")[1]}/ws`;
     let ws;
@@ -51,34 +84,8 @@ export default function Armazenamento({ route }) {
 
     ws.onopen = () => {
       console.log("WebSocket conectado");
-      buscarDiretorio();
+      buscarDiretorios();
     };
-  }
-
-  function abrirDiretorio(id, sentido) {
-    if (!id && sentido === "voltar") {
-      setEstadonavegacao(false);
-    } else if (sentido === "avançar") {
-      setEstadonavegacao(true);
-      setArquivos([
-        {
-          uri: "diretorio-1",
-          nome: "lego ninjago E1T1",
-        },
-        {
-          uri: "diretorio-1",
-          nome: "lego ninjago E2T1",
-        },
-        {
-          uri: "diretorio-1",
-          nome: "lego ninjago E3T1",
-        },
-        {
-          uri: "diretorio-1",
-          nome: "lego ninjago E4T1",
-        },
-      ]);
-    }
   }
 
   useEffect(() => {
@@ -86,16 +93,8 @@ export default function Armazenamento({ route }) {
     setdiretorios([
       {
         id: "diretorio-1",
-        nome: "novo_pasta",
-      },
-      {
-        id: "diretorio-2",
-        nome: "nada",
-      },
-      {
-        id: "diretorio-3",
-        nome: "aleatorios",
-      },
+        nome: "sem diretorios",
+      }
     ]);
   }, []);
 
@@ -121,7 +120,7 @@ export default function Armazenamento({ route }) {
               <BtnUniversal icone={"arquivo"} key={index} evento={()=>{
                 Alert.alert("DOWNLOAD OU STREAM","Escolha uma das opções.");
               }}>
-                <Text>{elemento.nome}</Text>
+                <Text>{elemento.name}</Text>
               </BtnUniversal>
             ))}
           </View>
@@ -141,7 +140,7 @@ export default function Armazenamento({ route }) {
               icone={"diretorio"}
               key={index}
               evento={() => {
-                abrirDiretorio(elemento.id, "avançar");
+                buscarDiretorio(elemento.id);
               }}
             >
               <Text>{elemento.nome}</Text>
