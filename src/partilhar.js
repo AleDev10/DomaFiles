@@ -105,10 +105,6 @@ export default function Partilhar() {
       tratarMensagem(event.data);
     };
 
-    ws.onerror = (erro) => {
-      console.error("Erro WebSocket");
-    };
-
     return () => {
       ws.close();
     };
