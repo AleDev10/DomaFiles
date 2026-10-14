@@ -3,6 +3,10 @@ import { registrarDiretorio } from "../configs/storegeConfig";
 
 let itemID = 1;
 
+export function resetarIDs() {
+  itemID = 1;
+}
+
 export async function diretorioService(nome) {
   try {
     const arquivos = await diretorioClient();

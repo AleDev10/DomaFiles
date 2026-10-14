@@ -4,6 +4,8 @@ import { getLocalIp } from "react-native-local-network-info";
 import { webSocket } from "./webSocket";
 import { rotas } from "./router/rotasRouter";
 import { casheConfig } from "./configs/casheConfig";
+import { resetarIDs } from "./services/diretorioService";
+import { deletarDiretorios } from "./configs/storegeConfig";
 
 const server = new ConfigServer();
 
@@ -34,6 +36,8 @@ export async function iniciarServidor() {
 
 export async function pararServidor() {
   try {
+    resetarIDs();
+    deletarDiretorios();
     casheConfig();
     await server.stop();
     console.log("Servidor parado");

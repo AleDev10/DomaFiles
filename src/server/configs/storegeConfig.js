@@ -2,7 +2,6 @@ const diretorioStorege = new Map();
 
 export function registrarDiretorio(diretorio = {id,nome,arquivos}) {
   diretorioStorege.set(diretorio.id, diretorio);
-  console.log("Diretorios registrados:", diretorioStorege.size);
   return diretorio
 }
 
@@ -12,4 +11,8 @@ export function obterDiretorioPorId(id) {
 
 export function obterDiretorios() {
   return diretorioStorege;
+}
+
+export function deletarDiretorios() {
+  diretorioStorege.clear();
 }
