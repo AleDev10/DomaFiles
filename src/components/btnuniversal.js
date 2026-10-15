@@ -110,7 +110,7 @@ export default function BtnUniversal({ icone, evento,children }) {
         <TouchableOpacity onPress={evento} style={styles.btnArquivo}>
           <Image
             style={styles.imgArquivo}
-            source={require("../assets/icons/qrcode.png")}
+            source={require("../assets/icons/movie.png")}
           ></Image>
           {children}
         </TouchableOpacity>
