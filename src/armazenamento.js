@@ -99,7 +99,7 @@ export default function Armazenamento({ route }) {
         break;
       case "Stream":
         console.log("Stream: ",arquivo);
-        navegate.navigate("REPRODUTOR",{dados:arquivo});
+        navegate.navigate("REPRODUTOR",{dados:arquivo,url:url});
         break;
       case "cancelado":
         console.log("cancelado: ",arquivo);

@@ -6,9 +6,12 @@ const videoSource =
   'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
 
 export default function Reprodutor({ route }) {
-    console.log(route);
-
-  const player = useVideoPlayer(videoSource, player => {
+    const { dados,url } = route.params;
+    const requisicao =`${url}/stream?uri=${dados.uri}&nome=${dados.name}&size=${dados.size}`
+    console.log(dados);
+    console.log(url);
+    console.log(requisicao);
+  const player = useVideoPlayer(requisicao, player => {
     player.loop = true;
     player.play();
   });
