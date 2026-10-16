@@ -36,9 +36,9 @@ export async function iniciarServidor() {
 
 export async function pararServidor() {
   try {
-    resetarIDs();
-    deletarDiretorios();
-    casheConfig();
+    //resetarIDs();
+    //deletarDiretorios();
+    //casheConfig();
     await server.stop();
     console.log("Servidor parado");
   } catch (error) {

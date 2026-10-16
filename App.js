@@ -21,6 +21,8 @@ import Cabecalho from "./src/components/cabecalho";
 import { buscarUmRegistro, CriarDB } from "./src/db/funcoesDB";
 import Erro from "./src/components/erro";
 import Carregar from "./src/components/carregar";
+import Reprodutor from "./src/reprodutor";
+import Navegador from "./src/navegador";
 
 const fontes = {
   "Montserrat-Black": require("./src/assets/fonts/Montserrat-Black.ttf"),
@@ -74,6 +76,20 @@ const telas = {
   },
   ARMAZENAMENTO: {
     screen: Armazenamento,
+    options: {
+      header: () => <Cabecalho />,
+      headerTransparent: true,
+    },
+  },
+  REPRODUTOR: {
+    screen: Reprodutor,
+    options: {
+      header: () => <Cabecalho />,
+      headerTransparent: true,
+    },
+  },
+  NAVEGADOR: {
+    screen: Navegador,
     options: {
       header: () => <Cabecalho />,
       headerTransparent: true,

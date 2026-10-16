@@ -6,9 +6,11 @@ import { useState, useEffect } from "react";
 import Fundo from "./components/fundo";
 import BtnUniversal from "./components/btnuniversal";
 import Erro from "./components/erro";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Armazenamento({ route }) {
   const { url } = route.params;
+  const navegate = useNavigation();
 
   const [estado, setEstado] = useState("pronto");
   const [mensagemErro, setMensagemErro] = useState("");
@@ -91,7 +93,21 @@ export default function Armazenamento({ route }) {
   }
 
   function opcaoEscolhida(opcao,arquivo ={}) {
-    console.log(`${opcao}: ${arquivo}`);
+    switch (opcao) {
+      case "Download":
+        console.log("Download: ",arquivo);
+        break;
+      case "Stream":
+        console.log("Stream: ",arquivo);
+        navegate.navigate("REPRODUTOR",{dados:arquivo});
+        break;
+      case "cancelado":
+        console.log("cancelado: ",arquivo);
+        break;
+    
+      default:
+        break;
+    }
   }
 
   function abrirAlerta(arquivo) {
