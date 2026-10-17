@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, Alert } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { useState, useEffect } from "react";
+import * as WebBrowser from "expo-web-browser";
 
 //componentes
 import Fundo from "./components/fundo";
@@ -91,20 +92,26 @@ export default function Armazenamento({ route }) {
       buscarDiretorios();
     };
   }
+  async function abrirNavegador(info) {
+    const { dados, url } = info;
+    const requisicao = `${url}/download?uri=${dados.uri}&nome=${dados.name}&size=${dados.size}&mimeType=video/mp4`;
 
-  function opcaoEscolhida(opcao,arquivo ={}) {
+    const resultado = await WebBrowser.openBrowserAsync(requisicao);
+    console.log(resultado);
+  }
+
+  function opcaoEscolhida(opcao, arquivo = {}) {
     switch (opcao) {
       case "Download":
-        console.log("Download: ",arquivo);
+        abrirNavegador({ dados: arquivo, url: url });
         break;
       case "Stream":
-        console.log("Stream: ",arquivo);
-        navegate.navigate("REPRODUTOR",{dados:arquivo,url:url});
+        navegate.navigate("REPRODUTOR", { dados: arquivo, url: url });
         break;
       case "cancelado":
-        console.log("cancelado: ",arquivo);
+        console.log("cancelado: ", arquivo);
         break;
-    
+
       default:
         break;
     }
@@ -114,17 +121,23 @@ export default function Armazenamento({ route }) {
     Alert.alert("DOWNLOAD OU STREAM", "Escolha uma das opções", [
       {
         text: "Download",
-        onPress: () => {opcaoEscolhida("Download",arquivo)},
+        onPress: () => {
+          opcaoEscolhida("Download", arquivo);
+        },
         style: "destructive",
       },
       {
         text: "Stream",
-        onPress: () => {opcaoEscolhida("Stream",arquivo)},
+        onPress: () => {
+          opcaoEscolhida("Stream", arquivo);
+        },
         style: "destructive",
       },
       {
         text: "Cancelar",
-        onPress: () => {opcaoEscolhida("cancelado")},
+        onPress: () => {
+          opcaoEscolhida("cancelado");
+        },
         style: "cancel",
       },
     ]);
@@ -152,29 +165,15 @@ export default function Armazenamento({ route }) {
         lastModified: 1788080086000,
         size: 5280639,
         mimeType: "video/mp4",
-        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/47d1ea05-7329-4f51-bfb9-059b0092975c.mp4",
+        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/8494333e-1287-4621-851e-e0c41218d397.mp4",
+        name: "Solo Leveling EP 2x1.mp4",
+      },
+      {
+        lastModified: 1788080086000,
+        size: 228211580,
+        mimeType: "video/mp4",
+        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/168250d2-2887-43fb-a587-21003db12be5.mp4",
         name: "YouCut_20260830_095427749.mp4",
-      },
-      {
-        lastModified: 1788078610000,
-        size: 10502642,
-        mimeType: "video/mp4",
-        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/c890f814-465e-459d-8868-913f820382be.mp4",
-        name: "YouCut_20260830_092946032.mp4",
-      },
-      {
-        lastModified: 1788078306000,
-        size: 3122988,
-        mimeType: "video/mp4",
-        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/51c38496-778b-4797-aef8-b1664317970c.mp4",
-        name: "YouCut_20260830_092453089.mp4",
-      },
-      {
-        lastModified: 1788079619000,
-        size: 17461745,
-        mimeType: "video/mp4",
-        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/1f3ec6a3-05bb-433a-8ff3-0dd18369f666.mp4",
-        name: "YouCut_20260830_094625098.mp4",
       },
     ]);
   }, []);
@@ -203,9 +202,9 @@ export default function Armazenamento({ route }) {
                 key={index}
                 evento={() => {
                   abrirAlerta({
-                    uri:elemento.uri,
-                    name:elemento.name,
-                    size:elemento.size,
+                    uri: elemento.uri,
+                    name: elemento.name,
+                    size: elemento.size,
                   });
                 }}
               >

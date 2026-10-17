@@ -1,58 +1,42 @@
-import { useEvent } from 'expo';
-import { useVideoPlayer, VideoView } from 'expo-video';
-import { StyleSheet, View, Button } from 'react-native';
-
-const videoSource =
-  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+import { useVideoPlayer, VideoView } from "expo-video";
+import { StyleSheet, View } from "react-native";
 
 export default function Reprodutor({ route }) {
-    const { dados,url } = route.params;
-    const requisicao =`${url}/stream?uri=${dados.uri}&nome=${dados.name}&size=${dados.size}`
-    console.log(dados);
-    console.log(url);
-    console.log(requisicao);
-  const player = useVideoPlayer(requisicao, player => {
-    player.loop = true;
-    player.play();
-  });
+  const { dados, url } = route.params;
+  const requisicao = `${url}/stream?uri=${dados.uri}&nome=${dados.name}&size=${dados.size}&mimeType=video/mp4`;
 
-  const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
+  console.log(requisicao);
+
+  const player = useVideoPlayer(dados.uri, (player) => {
+    player.loop = false;
+    player.play();
+    player.volume=1.0;
+  });
 
   return (
     <View style={styles.contentContainer}>
       <VideoView
         style={styles.video}
         player={player}
-        fullscreenOptions={{ enable: true }}
+        fullscreenOptions={{ enable: true,orientation:"landscape" }}
         allowsPictureInPicture
       />
-      <View style={styles.controlsContainer}>
-        <Button
-          title={isPlaying ? 'Pause' : 'Play'}
-          onPress={() => {
-            if (isPlaying) {
-              player.pause();
-            } else {
-              player.play();
-            }
-          }}
-        />
-      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   contentContainer: {
+    backgroundColor: "#0f50a6",
     flex: 1,
     padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 50,
   },
   video: {
     width: 350,
-    height: 275,
+    height: 350,
   },
   controlsContainer: {
     padding: 10,
