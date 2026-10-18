@@ -92,11 +92,14 @@ export default function Armazenamento({ route }) {
       buscarDiretorios();
     };
   }
+
   async function abrirNavegador(info) {
     const { dados, url } = info;
-    const requisicao = `${url}/download?uri=${dados.uri}&nome=${dados.name}&size=${dados.size}&mimeType=video/mp4`;
 
-    const resultado = await WebBrowser.openBrowserAsync(requisicao);
+    const link = `${url}/download?uri=${dados.uri}&nome=${dados.name}&size=${dados.size}`;
+    console.log(link)
+
+    const resultado = await WebBrowser.openBrowserAsync(link);
     console.log(resultado);
   }
 
@@ -148,32 +151,31 @@ export default function Armazenamento({ route }) {
     setdiretorios([
       {
         id: "diretorio-teste1",
-        nome: "Animes",
-      },
-      {
-        id: "diretorio-teste1",
-        nome: "Series",
-      },
-      {
-        id: "diretorio-teste1",
-        nome: "Filmes",
-      },
+        nome: "teste",
+      }
     ]);
 
     setArquivos([
       {
         lastModified: 1788080086000,
-        size: 5280639,
+        size: 53795854,
         mimeType: "video/mp4",
-        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/8494333e-1287-4621-851e-e0c41218d397.mp4",
-        name: "Solo Leveling EP 2x1.mp4",
+        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/6864f81f-fcdd-4106-a77f-94967c707508.mp4",
+        name: "VID_20261018_104744.mp4",
       },
       {
         lastModified: 1788080086000,
-        size: 228211580,
+        size: 208905208,
         mimeType: "video/mp4",
-        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/168250d2-2887-43fb-a587-21003db12be5.mp4",
-        name: "YouCut_20260830_095427749.mp4",
+        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/cdbbef07-b34a-4013-8c9d-8b57a3f3c9ed.mp4",
+        name: "VID_20261018_114808.mp4",
+      },
+      {
+        lastModified: 1788080086000,
+        size: 451759595,
+        mimeType: "video/mp4",
+        uri: "file:///data/user/0/com.alexandre_junqueiro.DomaFiles.dev/cache/DocumentPicker/b054ecbf-32e1-491f-8466-d8b2d994b759.mp4",
+        name: "1x8.mp4",
       },
     ]);
   }, []);
