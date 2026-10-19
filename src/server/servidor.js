@@ -24,6 +24,9 @@ export async function iniciarServidor() {
             path: "/ws",
           },
         ],
+        cors: {
+          origin: "*"
+        },
       },
       { host: "0.0.0.0" },
     );
