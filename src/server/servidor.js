@@ -1,4 +1,4 @@
-import { ConfigServer } from "react-native-nitro-http-server";
+import { createConfigServer } from "react-native-nitro-http-server";
 import { getLocalIp } from "react-native-local-network-info";
 
 import { webSocket } from "./webSocket";
@@ -7,31 +7,36 @@ import { casheConfig } from "./configs/casheConfig";
 import { resetarIDs } from "./services/diretorioService";
 import { deletarDiretorios } from "./configs/storegeConfig";
 
-const server = new ConfigServer();
+const port = 3000;
+const config = {
+  request_timeout_secs: 1800,
+  mounts: [
+    {
+      type: "websocket",
+      path: "/ws",
+    },
+    {
+      type: 'diretorios',
+      path: '/diretorios',
+      headers: { 'Access-Control-Allow-Origin': '*' },
+    },
+  ],
+  cors: "*",
+};
+const hostOrOptions = { host: "0.0.0.0",autoRestart: true };
+let server;
 
 export async function iniciarServidor() {
   try {
-    server.onWebSocket("/ws", webSocket);
+    const serverConfig = createConfigServer(port,rotas,config,hostOrOptions);
 
-    const port = await server.start(
-      3000,
-      rotas,
-      {
-        request_timeout_secs: 1800,
-        mounts: [
-          {
-            type: "websocket",
-            path: "/ws",
-          },
-        ],
-        cors: {
-          origin: "*"
-        },
-      },
-      { host: "0.0.0.0" },
-    );
+    server = await serverConfig;
 
-    return port;
+    console.log(server);
+
+    server.onWebSocket("/ws",webSocket);
+
+    return server.port;
   } catch (error) {
     console.log("Erro ao iniciar o servidor");
   }
