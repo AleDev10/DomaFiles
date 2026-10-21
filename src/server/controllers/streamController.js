@@ -42,6 +42,7 @@ export async function streamController(req, res) {
         statusCode: 400,
         headers: {
           "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
           sucesso: false,
@@ -55,6 +56,7 @@ export async function streamController(req, res) {
         statusCode: 400,
         headers: {
           "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
           sucesso: false,
@@ -71,6 +73,7 @@ export async function streamController(req, res) {
         headers: {
           "Content-Type": "application/json",
           "Content-Range": `bytes */${size}`,
+          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
           sucesso: false,
@@ -99,6 +102,7 @@ export async function streamController(req, res) {
         headers: {
           "Content-Type": "application/json",
           "Content-Range": `bytes */${tamanhoTotal}`,
+          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
           sucesso: false,
@@ -122,6 +126,7 @@ export async function streamController(req, res) {
         statusCode: 404,
         headers: {
           "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
           sucesso: false,
@@ -138,6 +143,7 @@ export async function streamController(req, res) {
         "Content-Range": `bytes ${resultado.inicio}-${resultado.fim}/${resultado.tamanhoTotal}`,
         "Accept-Ranges": "bytes",
         "Cache-Control": "no-cache",
+        'Access-Control-Allow-Origin': '*'
       },
       body: resultado.conteudo,
     };
@@ -147,6 +153,7 @@ export async function streamController(req, res) {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
         sucesso: false,

@@ -9,6 +9,7 @@ export async function diretorioController(req, res) {
         statusCode: 400,
         headers: {
           "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
           sucesso: false,
@@ -23,6 +24,7 @@ export async function diretorioController(req, res) {
       statusCode: 200,
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
         sucesso: true,
@@ -38,6 +40,7 @@ export async function diretorioController(req, res) {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
         sucesso: false,

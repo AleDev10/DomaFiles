@@ -16,12 +16,31 @@ const config = {
       path: "/ws",
     },
     {
+      type: 'default',
+      path: '/',
+    },
+    {
+      type: 'diretorio',
+      path: '/diretorio',
+    },
+    {
       type: 'diretorios',
       path: '/diretorios',
-      headers: { 'Access-Control-Allow-Origin': '*' },
+    },
+    {
+      type: 'diretorio:id',
+      path: '/diretorio/',
+    },
+    {
+      type: 'download',
+      path: '/download',
+    },
+    {
+      type: 'stream',
+      path: '/stream',
     },
   ],
-  cors: "*",
+  cors: true,
 };
 const hostOrOptions = { host: "0.0.0.0",autoRestart: true };
 let server;
@@ -31,8 +50,6 @@ export async function iniciarServidor() {
     const serverConfig = createConfigServer(port,rotas,config,hostOrOptions);
 
     server = await serverConfig;
-
-    console.log(server);
 
     server.onWebSocket("/ws",webSocket);
 
@@ -44,9 +61,9 @@ export async function iniciarServidor() {
 
 export async function pararServidor() {
   try {
-    //resetarIDs();
-    //deletarDiretorios();
-    //casheConfig();
+    resetarIDs();
+    deletarDiretorios();
+    casheConfig();
     await server.stop();
     console.log("Servidor parado");
   } catch (error) {

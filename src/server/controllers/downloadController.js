@@ -13,6 +13,7 @@ export async function downloadController(req, res) {
         statusCode: 400,
         headers: {
           "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
           sucesso: false,
@@ -28,6 +29,7 @@ export async function downloadController(req, res) {
         statusCode: 404,
         headers: {
           "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
           sucesso: false,
@@ -42,6 +44,7 @@ export async function downloadController(req, res) {
         "Content-Type": "video/mp4",
         "Content-Disposition": `attachment; filename=${nome}`,
         "Content-Length": String(size),
+        'Access-Control-Allow-Origin': '*'
       },
       body: arquivo.bytes.buffer,
     };
@@ -51,6 +54,7 @@ export async function downloadController(req, res) {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
         sucesso: false,
