@@ -57,7 +57,6 @@ export default function ModalButom({ url }) {
       }
 
       const diretorioDados = await diretorio.json();
-      console.log(diretorioDados.dados.diretorio);
       setDiretorios((dir) => [...dir, diretorioDados.dados.diretorio]);
     } catch (error) {
       console.error("Erro ao criar diretorio");
@@ -67,8 +66,6 @@ export default function ModalButom({ url }) {
   function validarTexto() {
     const nomeDiretorio = nome.trim();
     if (nomeDiretorio != "") {
-      console.log(nomeDiretorio);
-      console.log(url);
       setNome("");
       criarDiretorio(nomeDiretorio);
     }
