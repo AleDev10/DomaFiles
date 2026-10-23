@@ -13,6 +13,7 @@ import Carregar from "./components/carregar";
 //SERVIÇOS
 import { iniciarServidor, obterIP, pararServidor } from "./server/servidor";
 import { deletarClientes } from "./server/webSocket";
+import ModalButom from "./components/modalButom";
 
 export default function Partilhar() {
   const [qrCode, setQrCode] = useState(false);
@@ -141,7 +142,6 @@ export default function Partilhar() {
           <BtnUniversal icone={"qrcode"} evento={() => setQrCode(true)} />
         </View>
       </View>
-
       <View style={styles.caixaInferior}>
         <Text style={styles.textoDispositivos}>DISPOSITIVOS CONECTADOS</Text>
         <ScrollView style={styles.caixaDispositivos}>
@@ -152,6 +152,7 @@ export default function Partilhar() {
           ))}
         </ScrollView>
       </View>
+      <ModalButom url={`http://${ip}:${porta}`}></ModalButom>
     </Fundo>
   );
 }

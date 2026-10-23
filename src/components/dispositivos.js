@@ -4,13 +4,22 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 //componentes
 import LetraInicial from "./letrainicial";
 
-export default function Dispositivos({ inicial,nome }) {
-  return (
+export default function Dispositivos({ inicial="",nome="", tipo=""}) {
+  if (tipo==="diretorio") {
+    return (
+    <View style={styles.dispositivos}>
+      <Text style={styles.textoDispositivo}>{nome}</Text>
+    </View>
+  );
+  } else {
+    return (
     <View style={styles.dispositivos}>
       <LetraInicial letra={inicial} tipo={"pequena"}></LetraInicial>
       <Text style={styles.textoDispositivo}>{nome}</Text>
     </View>
   );
+  }
+  
 }
 
 const styles = StyleSheet.create({

@@ -3,6 +3,8 @@ import { useFonts } from "expo-font";
 import { createStaticNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 //janelas
 import Inicio from "./src/inicio";
@@ -122,7 +124,7 @@ export default function App() {
     return (
       <>
         <StatusBar style="auto"></StatusBar>
-        <Erro mensagem="Erro com banco de dados" tipo="tipo1"/>
+        <Erro mensagem="Erro com banco de dados" tipo="tipo1" />
       </>
     );
   }
@@ -131,7 +133,7 @@ export default function App() {
     return (
       <>
         <StatusBar style="auto"></StatusBar>
-        <Erro mensagem="Erro com as fontes" tipo="tipo1"/>
+        <Erro mensagem="Erro com as fontes" tipo="tipo1" />
       </>
     );
   }
@@ -140,7 +142,7 @@ export default function App() {
     return (
       <>
         <StatusBar style="auto"></StatusBar>
-        <Carregar tipo="fundoInicio"/>
+        <Carregar tipo="fundoInicio" />
       </>
     );
   }
@@ -148,7 +150,11 @@ export default function App() {
   return (
     <>
       <StatusBar style="auto"></StatusBar>
-      <Navigation></Navigation>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <Navigation></Navigation>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </>
   );
 }
